@@ -186,7 +186,7 @@ export default class SubschemaPlayground extends Component {
                     <ReactCSSReplaceTransition
                         key="transition" {...this.props.rollUp}>
                         { this.state.action == 'schema' ?
-                          <SchemaEditor value={schema}
+                          <SchemaEditor value={this.state.context.schema}
                                         onChange={this.handleSchemaChange}/>
                             : null }
 

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {newSubschemaContext} from 'subschema';
-import {transform, availablePlugins} from "babel-core";
-import {source, normalize} from 'subschema-project/lib/compile';
-import Editor from './Editor';
-import babelrcOrig from 'subschema-dev-support/babelrc.json';
-import form from 'subschema-project/lib/form';
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import {newSubschemaContext} from "subschema";
+import {availablePlugins, transform} from "babel-core";
+import {normalize, source} from "subschema-project/lib/compile";
+import Editor from "./Editor";
+import babelrcOrig from "subschema-dev-support/babelrc.json";
+import form from "subschema-project/lib/form";
 
 //expose for configuration.
 export const babelrc = {
@@ -150,13 +150,13 @@ export default class Compiler extends Component {
                 theme={this.props.theme}
                 errors={this.state.error ? [this.state.error] : null}
                 lineNumbers={true}
-                mode={"javascript"}
-                gutters={["CodeMirror-lint-markers"]}
-                lint={true}
+                mode={"jsx"}
             />
             <div className="prelude">
                 <Editor readOnly={true}
-                        className="playgroundStage"
+                        mode="jsx"
+                        maxLines={1}
+                        firstLineNumber={this.state.editorCode.split('\n').length+1}
                         codeText={createForm(this.props.form)}
                         theme={this.props.theme}
                 />

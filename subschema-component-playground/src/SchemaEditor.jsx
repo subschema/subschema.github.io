@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Editor } from 'subschema-component-playground';
-import PropTypes from 'subschema-prop-types';
-import CodeMirror from 'codemirror';
-import 'codemirror/addon/lint/json-lint';
+import React, {PureComponent} from "react";
+import {Editor} from "subschema-component-playground";
+import PropTypes from "subschema-prop-types";
+import AceEditor from "react-ace";
+import "brace/theme/chrome";
+import "brace/mode/json";
+
 
 const parseJson = (v, cb = console.trace) => {
     if (v == null) {
@@ -19,23 +21,10 @@ const parseJson = (v, cb = console.trace) => {
     return v;
 };
 
-const codeMirrorFactory = (ele, config) => {
-
-
-    const cm = CodeMirror.fromTextArea(ele, Object.assign({}, config, {
-        matchBrackets    : true,
-        autoCloseBrackets: true,
-        mode             : "application/json",
-        lineWrapping     : true,
-        pollInterval     : 300
-    }));
-    return cm;
-};
-
 export default class SchemaEditor extends PureComponent {
-    static propTypes    = {
+    static propTypes = {
         onChange: PropTypes.valueEvent,
-        value   : PropTypes.value
+        value: PropTypes.value
     };
     static defaultProps = {
         mode: "application/json"
@@ -47,28 +36,28 @@ export default class SchemaEditor extends PureComponent {
 
     componentWillReceiveProps(props) {
         if (props.value != this.props.value) {
-            this.setState({ codeText: JSON.stringify(props.value, null, 2) });
+            this.setState({codeText: JSON.stringify(props.value, null, 2)});
         }
     }
 
     handleChange = (codeText) => {
         clearTimeout(this._to);
-        this.setState({ codeText });
+        this.setState({codeText});
         const schema = parseJson(codeText, this._handleError);
 
         if (schema) {
-            this.setState({ errors: null });
+            this.setState({errors: null});
             this.props.onChange(schema);
         }
     };
     _handleError = (e) => {
-        const pos     = parseInt((e + '').replace(/.*at position (\d*)$/, '$1'),
+        const pos = parseInt((e + '').replace(/.*at position (\d*)$/, '$1'),
             10);
         const message = e.message.replace(/at position \d*$/, '');
         if (pos) {
-            const { codeText } = this.state;
-            let line           = 2;
-            let offset         = 0;
+            const {codeText} = this.state;
+            let line = 2;
+            let offset = 0;
 
             for (let i = 0, l = codeText.length; i < l; i++) {
                 if (codeText[i] === '\n') {
@@ -80,17 +69,28 @@ export default class SchemaEditor extends PureComponent {
                     offset++;
                 }
             }
-            this.setState({ errors: [{ message, loc: { line, offset } }] });
+            this.setState({errors: [{message, loc: {line, offset}}]});
         } else {
             console.trace(e);
         }
     };
 
     render() {
-        return <Editor codeText={this.state.codeText}
-                       mode={this.props.mode}
-                       codeMirrorFactory={codeMirrorFactory}
-                       errors={this.state.errors}
-                       onChange={this.handleChange}/>
+        return <AceEditor
+            mode="json"
+            theme="chrome"
+            name="code"
+            width="100%"
+            maxLines={50}
+            ref="ace"
+            fontSize={12}
+            value={this.state.codeText}
+            editorProps={{$blockScrolling: Infinity}}
+            onChange={this.handleChange}
+            onLoad={(editor) => {
+                editor.focus();
+                editor.getSession().setUseWrapMode(true);
+            }}
+        />
     }
 }

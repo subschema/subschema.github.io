@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import PropTypes from "subschema-prop-types";
-import "./Editor.css";
-import AceEditor from "react-ace";
-import "brace/theme/chrome";
-import "brace/mode/javascript";
+import React, {Component} from 'react';
+import PropTypes from 'subschema-prop-types';
+import AceEditor from 'react-ace';
+import 'brace/theme/chrome';
+import 'brace/mode/javascript';
+
 export default class Editor extends Component {
 
     static propTypes = {
@@ -26,9 +26,10 @@ export default class Editor extends Component {
 
     };
     static defaultProps = {
+        theme:'chrome',
         useWorker: true,
         firstLineNumber: 1,
-        mode: "javascript",
+        mode: 'javascript',
         lineNumbers: false,
         lineWrapping: true,
         smartIndent: false,
@@ -39,9 +40,9 @@ export default class Editor extends Component {
     render() {
         return <AceEditor
             mode={this.props.mode}
-            theme="chrome"
+            theme={this.props.theme}
             onChange={this.props.onChange}
-            name="editor"
+            name='editor'
             readOnly={this.props.readOnly}
             lineNumbers={true}
             value={this.props.codeText.trim()}

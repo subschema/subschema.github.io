@@ -32,7 +32,25 @@ export default class SchemaEditor extends PureComponent {
         value: PropTypes.value
     };
     static defaultProps = {
-        mode: 'application/json'
+        mode: 'application/json',
+        lineNumbers: true,
+        readOnly: false,
+        useWorker: true,
+        showGutter: true,
+        highlightActiveLine: true
+    };
+    handleLoad = (editor) => {
+        editor.focus();
+        editor.getSession().setUseWrapMode(true);
+        editor.setHighlightActiveLine(this.props.highlightActiveLine);
+    };
+
+    handleChange = (src) => {
+        try {
+            this.props.onChange(src == null ? src : JSON.parse(src));
+        } catch (e) {
+            console.error(`error with src`, e);
+        }
     };
 
     render() {
@@ -44,13 +62,17 @@ export default class SchemaEditor extends PureComponent {
             maxLines={50}
             ref='ace'
             fontSize={12}
+            readOnly={this.props.readOnly}
+            showLineNumbers={this.props.lineNumbers}
             value={toString(this.props.value)}
             editorProps={{$blockScrolling: Infinity}}
-            onChange={this.handleChange}
-            onLoad={(editor) => {
-                editor.focus();
-                editor.getSession().setUseWrapMode(true);
+            setOptions={{
+                showLineNumbers: this.props.lineNumbers,
+                showGutter: this.props.showGutter,
+                useWorker: this.props.useWorker,
             }}
+            onChange={this.handleChange}
+            onLoad={this.handleLoad}
         />
     }
 }

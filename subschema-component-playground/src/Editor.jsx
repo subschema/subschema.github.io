@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import PropTypes from 'subschema-prop-types';
-import AceEditor from 'react-ace';
-import 'brace/theme/chrome';
-import 'brace/mode/javascript';
+import React, {Component} from "react";
+import PropTypes from "subschema-prop-types";
+import AceEditor from "react-ace";
+import "brace/theme/chrome";
+import "brace/mode/javascript";
 
 export default class Editor extends Component {
 
@@ -22,11 +22,13 @@ export default class Editor extends Component {
         useWorker: PropTypes.bool,
         errors: PropTypes.array,
         firstLineNumber: PropTypes.number,
-        maxLines: PropTypes.number
+        maxLines: PropTypes.number,
+        highlightActiveLine: PropTypes.bool,
+        useWrapMode: PropTypes.bool
 
     };
     static defaultProps = {
-        theme:'chrome',
+        theme: 'chrome',
         useWorker: true,
         firstLineNumber: 1,
         mode: 'javascript',
@@ -34,7 +36,13 @@ export default class Editor extends Component {
         lineWrapping: true,
         smartIndent: false,
         matchBrackets: true,
-        codeText: ''
+        codeText: '',
+        useWrapMode: true
+    };
+    handleLoad = (editor) => {
+        editor.focus();
+        editor.getSession().setUseWrapMode(this.props.useWrapMode);
+        editor.setHighlightActiveLine(this.props.highlightActiveLine);
     };
 
     render() {
@@ -48,7 +56,13 @@ export default class Editor extends Component {
             value={this.props.codeText.trim()}
             editorProps={{$blockScrolling: true}}
             maxLines={this.props.maxLines}
-            setOptions={{firstLineNumber: this.props.firstLineNumber, useWorker: this.props.useWorker}}
+            width="100%"
+            setOptions={{
+                firstLineNumber: this.props.firstLineNumber,
+                highlightActiveLine: this.props.highlightActiveLine,
+                useWorker: this.props.useWorker
+            }}
+            onLoad={this.handleLoad}
         />
 
     }

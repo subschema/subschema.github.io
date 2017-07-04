@@ -21,70 +21,30 @@ const parseJson = (v, cb = console.trace) => {
     return v;
 };
 
+const toString = (value) => {
+    if (value == null) return '';
+    if (typeof value === 'string') return value;
+    return JSON.stringify(value, null, 2);
+}
 export default class SchemaEditor extends PureComponent {
     static propTypes = {
         onChange: PropTypes.valueEvent,
         value: PropTypes.value
     };
     static defaultProps = {
-        mode: "application/json"
-    };
-
-    state = {
-        codeText: JSON.stringify(this.props.value, null, 2)
-    };
-
-    componentWillReceiveProps(props) {
-        if (props.value != this.props.value) {
-            this.setState({codeText: JSON.stringify(props.value, null, 2)});
-        }
-    }
-
-    handleChange = (codeText) => {
-        clearTimeout(this._to);
-        this.setState({codeText});
-        const schema = parseJson(codeText, this._handleError);
-
-        if (schema) {
-            this.setState({errors: null});
-            this.props.onChange(schema);
-        }
-    };
-    _handleError = (e) => {
-        const pos = parseInt((e + '').replace(/.*at position (\d*)$/, '$1'),
-            10);
-        const message = e.message.replace(/at position \d*$/, '');
-        if (pos) {
-            const {codeText} = this.state;
-            let line = 2;
-            let offset = 0;
-
-            for (let i = 0, l = codeText.length; i < l; i++) {
-                if (codeText[i] === '\n') {
-                    line++;
-                    offset = 0;
-                } else if (i === pos) {
-                    break;
-                } else {
-                    offset++;
-                }
-            }
-            this.setState({errors: [{message, loc: {line, offset}}]});
-        } else {
-            console.trace(e);
-        }
+        mode: 'application/json'
     };
 
     render() {
         return <AceEditor
-            mode="json"
-            theme="chrome"
-            name="code"
-            width="100%"
+            mode='json'
+            theme='chrome'
+            name='code'
+            width='100%'
             maxLines={50}
-            ref="ace"
+            ref='ace'
             fontSize={12}
-            value={this.state.codeText}
+            value={toString(this.props.value)}
             editorProps={{$blockScrolling: Infinity}}
             onChange={this.handleChange}
             onLoad={(editor) => {

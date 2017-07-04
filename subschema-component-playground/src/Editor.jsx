@@ -3,7 +3,7 @@ import PropTypes from "subschema-prop-types";
 import "./Editor.css";
 import AceEditor from "react-ace";
 import "brace/theme/chrome";
-import "brace/mode/jsx";
+import "brace/mode/javascript";
 export default class Editor extends Component {
 
     static propTypes = {
@@ -19,40 +19,35 @@ export default class Editor extends Component {
         lineWrapping: PropTypes.bool,
         smartIndent: PropTypes.bool,
         matchBrackets: PropTypes.bool,
+        useWorker: PropTypes.bool,
         errors: PropTypes.array,
         firstLineNumber: PropTypes.number,
         maxLines: PropTypes.number
 
     };
     static defaultProps = {
+        useWorker: true,
         firstLineNumber: 1,
-        mode: "jsx",
+        mode: "javascript",
         lineNumbers: false,
         lineWrapping: true,
         smartIndent: false,
-        matchBrackets: true
-    };
-
-
-
-    _handleChange = (value) => {
-        if (!this.props.readOnly && this.props.onChange) {
-            this.props.onChange(value);
-        }
+        matchBrackets: true,
+        codeText: ''
     };
 
     render() {
         return <AceEditor
             mode={this.props.mode}
             theme="chrome"
-            onChange={this._handleChange}
+            onChange={this.props.onChange}
             name="editor"
             readOnly={this.props.readOnly}
             lineNumbers={true}
-            value={this.props.codeText}
+            value={this.props.codeText.trim()}
             editorProps={{$blockScrolling: true}}
             maxLines={this.props.maxLines}
-            setOptions={{firstLineNumber: this.props.firstLineNumber}}
+            setOptions={{firstLineNumber: this.props.firstLineNumber, useWorker: this.props.useWorker}}
         />
 
     }

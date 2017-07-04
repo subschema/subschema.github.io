@@ -150,12 +150,11 @@ export default class Compiler extends Component {
                 theme={this.props.theme}
                 errors={this.state.error ? [this.state.error] : null}
                 lineNumbers={true}
-                mode={"jsx"}
             />
             <div className="prelude">
                 <Editor readOnly={true}
-                        mode="jsx"
                         maxLines={1}
+                        useWorker={false}
                         firstLineNumber={this.state.editorCode.split('\n').length+1}
                         codeText={createForm(this.props.form)}
                         theme={this.props.theme}

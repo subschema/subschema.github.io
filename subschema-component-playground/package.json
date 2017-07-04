@@ -35,7 +35,8 @@
     "subschema-test-samples": "^2.1.0",
     "subschema-test-support": "^2.1.0",
     "subschema-transitions": "^2.1.0",
-    "subschema-validators": "^2.1.0"
+    "subschema-validators": "^2.1.0",
+    "subschema-valuemanager":"^2.1.0"
   },
   "peerDependencies": {
     "lodash": "*",

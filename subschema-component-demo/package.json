@@ -32,7 +32,8 @@
     "subschema-transitions": "^2.1.1",
     "subschema-utils": "^2.1.1",
     "subschema-validators": "^2.1.1",
-    "subschema-valuemanager": "^2.1.1"
+    "subschema-valuemanager": "^2.1.1",
+    "subschema.wiki": "^2.1.1"
   },
   "peerDepenencies": {
     "react": "*",
@@ -49,7 +50,8 @@
   },
   "subschema": {
     "include": [
-      "subschema-project"
+      "subschema-project",
+      "subschema.wiki"
     ]
   }
 }

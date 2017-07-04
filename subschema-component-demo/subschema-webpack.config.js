@@ -1,20 +1,6 @@
 var path = require('path');
 var join = path.join.bind(path, __dirname);
-module.exports =  function (options, webpack)  {
-    webpack.module.rules.push(
-        {
-            test: /\.md$/,
-            include: [
-                join('public/develop')
-            ],
-            use: {
-                loader: '!!raw-loader!'
-            }
-        },
-        {
-            test: /\.lessp$/,
-            use: options.useStyle('css-loader', options.useLess, options.usePostCss)
-        });
+module.exports = function (options, webpack) {
 
     if (!webpack.externals.react) {
         webpack.resolve.alias.react = join('node_modules', 'react');

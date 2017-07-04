@@ -26,6 +26,12 @@
       "type": "SchemaEditor",
       "template": false
     },
+    "docs": {
+      "type": "Navigate",
+      "template": false,
+      "label":"{.label}",
+      "href": "#/docs/{.name}"
+    },
     "samples": {
       "type": "Navigate",
       "template": false,
@@ -34,7 +40,7 @@
     "main": {
       "type": "Routes",
       "routes": {
-        "/doc/:page": "Doc",
+        "/docs/:doc": "Doc",
         "/:example": "Example",
         "": "Index"
       }
@@ -85,6 +91,9 @@
                 {
                   "legend": "Examples",
                   "template": "H3"
+                },
+                {
+                  "fields": "docs"
                 },
                 {
                   "fields": "samples"

@@ -1,6 +1,6 @@
 {
   "name": "subschema-component-list",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "description": "Subschema",
   "main": "lib/index.js",
   "scripts": {
@@ -15,10 +15,10 @@
     "prop-types": "*",
     "react": "*",
     "react-dom": "*",
-    "subschema-component-form": "^2.2.1",
-    "subschema-core": "^2.2.1",
-    "subschema-prop-types": "^2.2.1",
-    "subschema-utils": "^2.2.1"
+    "subschema-component-form": "^2.2.3",
+    "subschema-core": "^2.2.3",
+    "subschema-prop-types": "^2.2.3",
+    "subschema-utils": "^2.2.3"
   },
   "devDependencies": {
     "expect": "^1.20.2",
@@ -27,19 +27,19 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "rimraf": "^2.6.1",
-    "subschema-component-form": "^2.2.1",
-    "subschema-core": "^2.2.1",
-    "subschema-css-bootstrap": "^2.2.1",
-    "subschema-dev-support": "^2.2.1",
-    "subschema-expression": "^2.2.1",
-    "subschema-injection": "^2.2.1",
-    "subschema-loader": "^2.2.1",
-    "subschema-processors": "^2.2.1",
-    "subschema-prop-types": "^2.2.1",
-    "subschema-test-support": "^2.2.1",
-    "subschema-transitions": "^2.2.1",
-    "subschema-utils": "^2.2.1",
-    "subschema-validators": "^2.2.1",
-    "subschema-valuemanager": "^2.2.1"
+    "subschema-component-form": "^2.2.3",
+    "subschema-core": "^2.2.3",
+    "subschema-css-bootstrap": "^2.2.3",
+    "subschema-dev-support": "^2.2.3",
+    "subschema-expression": "^2.2.3",
+    "subschema-injection": "^2.2.3",
+    "subschema-loader": "^2.2.3",
+    "subschema-processors": "^2.2.3",
+    "subschema-prop-types": "^2.2.3",
+    "subschema-test-support": "^2.2.3",
+    "subschema-transitions": "^2.2.3",
+    "subschema-utils": "^2.2.3",
+    "subschema-validators": "^2.2.3",
+    "subschema-valuemanager": "^2.2.3"
   }
 }

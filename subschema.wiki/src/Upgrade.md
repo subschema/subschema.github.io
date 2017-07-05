@@ -1,13 +1,16 @@
----
-imports:
-  '{ name, version }': ../package.json
-displayName : 'Upgrade'
----
+# Subschema 2.1.0->2.2.0
+## Demo Changes
+ * Switched to using Ace instead of CodeMirror  for code stuff.
+ * Added wiki docs to the demo.
+ * Removed Lessp processor.
+ * Added loader type for demo.
+ * Deleted Editor.css
+ * Added Preview/Download back to demo.  Now they reflect current UI state.
+## Fixes
+ * Fixed the defaultProps function logic.
+ 
 
-Current Subschema Version: {{version}}
-===
-
-Subschema 2.1.0->2.0.x
+# Subschema 2.1.0->2.0.x
 ## Api Changes
 * ModalTemplate now uses smarter storing and recieving.
 

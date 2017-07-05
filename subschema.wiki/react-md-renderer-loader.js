@@ -12,7 +12,6 @@ var assign      = require('markdown-it/lib/common/utils').assign;
 var unescapeAll = require('markdown-it/lib/common/utils').unescapeAll;
 var escapeHtml  = require('markdown-it/lib/common/utils').escapeHtml;
 var MarkdownIt  = require('markdown-it');
-var loaderUtils = require('loader-utils');
 
 ////////////////////////////////////////////////////////////////////////////////
 

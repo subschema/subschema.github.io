@@ -45,8 +45,7 @@
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "rimraf": "^2.6.1",
-    "val-loader": "^1.0.2"
+    "rimraf": "^2.6.1"
   },
   "subschema": {
     "exclude": "subschema-(?:|component|css|processors|validators)(?:-.+?)?"

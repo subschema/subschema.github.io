@@ -15,9 +15,9 @@ writing subschema easy, this project is an attempt to fix this.
 More on [Subschema](https://github.com/subschema/subschema), [demo](https://subschema.github.io/subschema)
 
 #Requirements
-* NPM >3 - There are known issues with npm2 and babel. 
+*NPM 3.10.x* - There are known issues with npm2 and issues with npm 5.
 ```sh
-  $ npm install npm@latest -g
+  $ npm install npm@^3.10.0 -g
   $ npm install yarn@latest -g
 ```
 * node > 6 - Seems to be fine on node 6 and up.
@@ -26,7 +26,9 @@ More on [Subschema](https://github.com/subschema/subschema), [demo](https://subs
 ```sh
   $ git clone  git@github.com:subschema/subschema-devel.git
   $ yarn install
-  $ lerna bootstrap
+  $ yarn run  bootstrap
   $ cd subschema-component-demo
   $ yarn run server
+  # on Mac
+  $ open http://localhost:8082
 ```

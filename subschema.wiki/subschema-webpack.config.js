@@ -18,11 +18,13 @@ module.exports = function (options, webpack) {
 
     webpack.module.rules.push(
         {
-            test: /\.md$/,
-            include: [
+            test   :/\.md$/,
+            include:[
                 path.join(__dirname, 'src')
             ],
-            use: [].concat(babel.use, {loader: require.resolve('markdown-component-loader')})
+            use    :[].concat(babel.use, {
+                loader:require.resolve('./react-md-renderer-loader'),
+            })
         });
 
 

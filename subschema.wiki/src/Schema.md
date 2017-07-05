@@ -4,7 +4,7 @@ The schema for subschema was originally based on the schema used by [backbone fo
 
 Schemas have 2 sections, the first section "schema", defines fields. The second defines fieldsets.
 
-##Injection - 
+## Injection - 
 Subschema magic happens through propType injection.  The rules are pretty simple.
 
 Example Component:
@@ -53,7 +53,7 @@ export default class Example extends Component {
 
 These rules hold true for all components injected by Subschema.
 
-##Field
+## Field
 A field in subschema defines a type and optionally a template, validator for the field.
 ```jsx
 schema:{
@@ -83,7 +83,7 @@ schema:{
 
 ```
 
-##FieldSet
+## FieldSet
 A fieldset is a set of fields, the can be nested indefinitely.   They are meant to describe how you want subschema to layout
 your fields.
 
@@ -101,7 +101,7 @@ your fields.
 
 ```
 
-##Template
+## Template
 A template is a component that accepts Fields (children) and renders them.  They are injected and can have other behaviour.
 FieldSet Templates do not have a "path".
  * {string} name of a template from the loader.

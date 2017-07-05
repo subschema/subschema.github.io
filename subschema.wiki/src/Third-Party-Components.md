@@ -9,7 +9,7 @@ Here are some hints.
 
 
 ```es6
-import {PropTypes, loaderFactory} from 'Subschema';
+import {PropTypes, loaderFactory} from 'subschema';
 //ReactSelect does not come with subschema.
 import ReactSelect from "react-select";
 
@@ -24,4 +24,10 @@ ReactSelect.injectedProps = {
   value:"."
 }
 
+```
+
+The 3rd party types will need to be added to the loader
+
+```js
+loader.addType('ReactSelect', ReactSelect);
 ```

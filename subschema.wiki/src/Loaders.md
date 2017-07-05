@@ -37,6 +37,7 @@ By default a loader has the following kinds.
 * Style - Allow for injection of stylesheet modules.
 * Transition - Allow for injection of transition modules.
 
+
 For each Kind of loader, the following methods exist
 * loaderFactory#add{Kind} - takes a string and an Kind or an object with keys and Kinds
 * loaderFactory#list{Kind}s - Lists the installed kinds.

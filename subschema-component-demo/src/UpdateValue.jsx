@@ -22,21 +22,6 @@ export default class UpdateValue extends Component {
         example: 'Basic'
     };
 
-    name(name) {
-        name = name || 'sample';
-        this.setState({
-            jsName: camelCase(filename),
-            filename: `${filename}`,
-            name: name, title: capitalize(filename.replace('-', ' '))
-        });
-    }
-
-    description(description) {
-        this.setState({
-            description
-        });
-    }
-
     render() {
         let {filename, description, example} = this.props;
         filename = filename || 'simple';

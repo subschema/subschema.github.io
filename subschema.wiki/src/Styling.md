@@ -28,10 +28,12 @@ To inject styles into Components use the PropTypes.style resolver and add the st
 //index.js
 import WidgetStyle from './widget/Widget.css';
 import Widget from './widget/Widget.jsx';
-import {loader} from 'Subschema';
 
-loader.addType('Widget', Widget);
-loader.addStyle('Widget', WidgetStyle);
+export types = { Widget };
+export styles = { Widget:WidgetStyle};
+
+export default ({ types, styles }); 
+
 
 ```
 Now we need to access the style object from our component.

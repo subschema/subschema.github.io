@@ -2,7 +2,7 @@ How it works
 ===
 Subschema is mainly a dependency injection framework for React.  It works by inspecting classes to be injected, propTypes property and then resolving those properties against the resolvers or the configuration.
 
-```ascii
+```
  App -> Form (Context)   ->[] FieldSets
          + ValueManager       +Injected->(Template) (Each Fieldset can have a template
          + resolvers             +-Fields (A Template can have multiple Fields)
@@ -15,7 +15,7 @@ So the basic flow is &lt;Subschema.Form...&gt; takes a schema.  A schema contain
 
 The actual magic happens by a Synthetic Class is generated based on the Component Class's propTypes.  It looks at the propTypes and passes them to the resolvers.   These resolvers then modify the Synthetic class to enable it to manage the child's properties. 
 
-```ascii
+```
   
   Synthetic Class -> Component Class
 ```

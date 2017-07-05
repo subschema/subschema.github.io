@@ -3,11 +3,11 @@
   "version": "2.1.1",
   "description": "Subschema Wiki",
   "main": "src/index.js",
-  "scripts":{
-    "server":"subschema-webpack-dev-server"
+  "scripts": {
+    "server": "subschema-webpack-dev-server"
   },
   "dependencies": {
-    "markdown-component-loader": "^0.8.0"
+    "markdown-it": "^8.3.1"
   },
   "devDependencies": {
     "subschema-dev-support": "^2.1.1"

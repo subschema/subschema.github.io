@@ -25,10 +25,7 @@
     "subschema-project",
     "subschema-component-playground",
     "subschema-component-demo",
-    "subschema-native-dev-support",
-    "subschema-native",
-    "subschema.wiki",
-    "SubschemaNativeDemo"
+    "subschema.wiki"
   ],
   "version": "2.1.1"
 }

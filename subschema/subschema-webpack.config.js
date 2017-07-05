@@ -6,8 +6,7 @@ module.exports = function (options, webpack) {
     webpack.module.rules.push({
         test: path.resolve(__dirname, 'src', 'DefaultLoader.js'),
         use : {
-            loader : require.resolve(
-                'subschema-dev-support/node_modules/val-loader'),
+            loader : 'val-loader',
             options: {
                 dependencies: webpackUtils.concatFilteredDependencies(pkg)
             }

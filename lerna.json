@@ -1,5 +1,5 @@
 {
-  "lerna": "2.0.0-rc.3",
+  "lerna": "2.0.0-rc.5",
   "packages": [
     "subschema-core",
     "subschema-injection",
@@ -27,5 +27,5 @@
     "subschema-component-demo",
     "subschema.wiki"
   ],
-  "version": "2.2.0"
+  "version": "2.2.3"
 }

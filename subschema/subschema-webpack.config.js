@@ -6,7 +6,7 @@ module.exports = function (options, webpack) {
     webpack.module.rules.push({
         test: path.resolve(__dirname, 'src', 'DefaultLoader.js'),
         use : {
-            loader : path.resolve(__dirname, 'node_modules', 'val-loader'),
+            loader : 'val-loader',
             options: {
                 dependencies: webpackUtils.concatFilteredDependencies(pkg)
             }
@@ -15,7 +15,7 @@ module.exports = function (options, webpack) {
     });
     //make sure everyone uses the same lodash.
     webpack.resolve.alias.lodash =
-        path.resolve(__dirname, 'node_modules', 'lodash');
+        path.dirname(require.resolve('lodash'));
 
     webpack.plugins.unshift(new options.webpack.DefinePlugin({
         SUBSCHEMA_VERSION: JSON.stringify(pkg.version)

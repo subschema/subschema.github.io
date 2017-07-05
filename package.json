@@ -9,11 +9,11 @@
     "coverage": "SUBSCHEMA_COVERAGE_USE_GLOBAL=1 lerna --concurrency 1 run test && istanbul report --dir ./docs/coverage --include './coverage/subschema*/cov*.json' html",
     "test": "lerna bootstrap && lerna run test",
     "bootstrap": "lerna bootstrap",
+    "demo":"cd subschema-component-demo && yarn run demo",
     "karma": "SUBSCHEMA_DEBUG=1 SUBSCHEMA_TEST_DIR=. ./subschema-dev-support/bin/subschema-karma.js"
-
   },
   "devDependencies": {
-    "lerna": "^2.0.0-rc.4",
+    "lerna": "^2.0.0-rc.5",
     "lerna-relinker": "^1.4.0",
     "rimraf": "^2.6.1"
   },
@@ -45,6 +45,10 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "npm": "^3.10.0",
+    "yarn": "^0.24.0"
   },
   "subschema": {
     "include": "subschema*"

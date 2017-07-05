@@ -1,7 +1,7 @@
 {
   "name": "subschema-dev-support",
-  "version": "2.2.0",
-  "description": "Tools for developing with subschema",
+  "version": "2.2.3",
+  "description": "Tools for developing with subschema and webpack",
   "scripts": {
     "test": "echo 'No Tests for subschema-dev-support'",
     "clean": "rimraf ./lib ./dist"
@@ -64,6 +64,7 @@
     "rimraf": "^2.6.1",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
+    "val-loader": "^1.0.2",
     "webpack": "^2.4.1",
     "webpack-bundle-analyzer": "^2.8.2",
     "webpack-dev-server": "^2.4.2",

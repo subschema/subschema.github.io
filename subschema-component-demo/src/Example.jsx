@@ -1,42 +1,32 @@
-import React, { Component } from 'react';
-import PropTypes from 'subschema-prop-types';
-import { SubschemaPlayground as UninjectedSubschemaPlayground } from 'subschema-component-playground';
-
+import React, {Component} from "react";
+import PropTypes from "subschema-prop-types";
+import {SubschemaPlayground as UninjectedSubschemaPlayground} from "subschema-component-playground";
+import {loader} from "./PropTypes";
 export default class Example extends Component {
 
     static contextTypes = PropTypes.contextTypes;
 
     static propTypes = {
-        example            : PropTypes.string,
+        example: loader,
         SubschemaPlayground: PropTypes.injectClass,
-        conf               : PropTypes.any,
-        useData            : PropTypes.value,
-        useErrors          : PropTypes.value,
-        onSubmit           : PropTypes.valueEvent,
+        useData: PropTypes.value,
+        useErrors: PropTypes.value,
+        onSubmit: PropTypes.valueEvent,
     };
 
     static defaultProps = {
         SubschemaPlayground: UninjectedSubschemaPlayground,
-        onSubmit           : "submit",
-        useData            : "@query.useData",
-        useErrors          : "@query.useErrors"
+        onSubmit: "submit",
+        useData: "@query.useData",
+        useErrors: "@query.useErrors",
     };
 
-    constructor(props, context, ...args) {
-        super(props, context, ...args);
-        this.conf = this.context.loader.loadSample(props.example);
-    }
-
-    componentWillReceiveProps(props) {
-        if (this.props.example != props.example) {
-            this.conf = this.context.loader.loadSample(props.example);
-        }
-    }
 
     render() {
+        const {example: {name, description}} = this.props;
         return <div>
-            <h3>{this.props.example}</h3>
-            <p>{this.props.conf && this.props.conf.description}</p>
+            <h3>{name}</h3>
+            <p>{description}</p>
             {this.renderEdit()}
 
         </div>
@@ -53,16 +43,15 @@ export default class Example extends Component {
     };
 
     renderEdit() {
-        const { SubschemaPlayground }                                         = this.props;
-        const { schema, setupTxt, props, description, data, imports, errors } = this.conf
-                                                                                || {};
+        const {SubschemaPlayground, UpdateValue} = this.props;
+        const {name, schema, setupTxt, props, description, data, imports, errors} = this.props.example
+        || {};
         return <div className='sample-example-playground'>
-            <SubschemaPlayground key={'form-' + this.props.example}
+            <SubschemaPlayground key={'form-' + name}
                                  theme='monokai'
-                                 onSubmit={this.handleSubmit}
                                  expandTxt="Show Example Code"
                                  collapseTxt="Hide Example Code"
-                                 filename={`Example ${this.props.example}`}
+                                 filename={`Example ${name}`}
                                  useData={!!this.props.useData}
                                  useErrors={!!this.props.useErrors}
                                  collapsableCode={true}
@@ -73,9 +62,9 @@ export default class Example extends Component {
                                  props={props}
                                  description={description}
                                  schema={schema}
+                                 onSubmit={this.handleSubmit}
 
             />
-
         </div>
     }
 }

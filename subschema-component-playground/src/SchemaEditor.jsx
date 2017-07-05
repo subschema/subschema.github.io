@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react';
-import { Editor } from 'subschema-component-playground';
-import PropTypes from 'subschema-prop-types';
-import CodeMirror from 'codemirror';
-import 'codemirror/addon/lint/json-lint';
+import React, {PureComponent} from "react";
+import {Editor} from "subschema-component-playground";
+import PropTypes from "subschema-prop-types";
+import AceEditor from "react-ace";
+import "brace/theme/chrome";
+import "brace/mode/json";
+
 
 const parseJson = (v, cb = console.trace) => {
     if (v == null) {
@@ -19,78 +21,58 @@ const parseJson = (v, cb = console.trace) => {
     return v;
 };
 
-const codeMirrorFactory = (ele, config) => {
-
-
-    const cm = CodeMirror.fromTextArea(ele, Object.assign({}, config, {
-        matchBrackets    : true,
-        autoCloseBrackets: true,
-        mode             : "application/json",
-        lineWrapping     : true,
-        pollInterval     : 300
-    }));
-    return cm;
-};
-
+const toString = (value) => {
+    if (value == null) return '';
+    if (typeof value === 'string') return value;
+    return JSON.stringify(value, null, 2);
+}
 export default class SchemaEditor extends PureComponent {
-    static propTypes    = {
+    static propTypes = {
         onChange: PropTypes.valueEvent,
-        value   : PropTypes.value
+        value: PropTypes.value
     };
     static defaultProps = {
-        mode: "application/json"
+        mode: 'application/json',
+        lineNumbers: true,
+        readOnly: false,
+        useWorker: true,
+        showGutter: true,
+        highlightActiveLine: true
+    };
+    handleLoad = (editor) => {
+        editor.focus();
+        editor.getSession().setUseWrapMode(true);
+        editor.setHighlightActiveLine(this.props.highlightActiveLine);
     };
 
-    state = {
-        codeText: JSON.stringify(this.props.value, null, 2)
-    };
-
-    componentWillReceiveProps(props) {
-        if (props.value != this.props.value) {
-            this.setState({ codeText: JSON.stringify(props.value, null, 2) });
-        }
-    }
-
-    handleChange = (codeText) => {
-        clearTimeout(this._to);
-        this.setState({ codeText });
-        const schema = parseJson(codeText, this._handleError);
-
-        if (schema) {
-            this.setState({ errors: null });
-            this.props.onChange(schema);
-        }
-    };
-    _handleError = (e) => {
-        const pos     = parseInt((e + '').replace(/.*at position (\d*)$/, '$1'),
-            10);
-        const message = e.message.replace(/at position \d*$/, '');
-        if (pos) {
-            const { codeText } = this.state;
-            let line           = 2;
-            let offset         = 0;
-
-            for (let i = 0, l = codeText.length; i < l; i++) {
-                if (codeText[i] === '\n') {
-                    line++;
-                    offset = 0;
-                } else if (i === pos) {
-                    break;
-                } else {
-                    offset++;
-                }
-            }
-            this.setState({ errors: [{ message, loc: { line, offset } }] });
-        } else {
-            console.trace(e);
+    handleChange = (src) => {
+        try {
+            this.props.onChange(src == null ? src : JSON.parse(src));
+        } catch (e) {
+            console.error(`error with src`, e);
         }
     };
 
     render() {
-        return <Editor codeText={this.state.codeText}
-                       mode={this.props.mode}
-                       codeMirrorFactory={codeMirrorFactory}
-                       errors={this.state.errors}
-                       onChange={this.handleChange}/>
+        return <AceEditor
+            mode='json'
+            theme='chrome'
+            name='code'
+            width='100%'
+            maxLines={50}
+            ref='ace'
+            fontSize={12}
+            readOnly={this.props.readOnly}
+            showLineNumbers={this.props.lineNumbers}
+            value={toString(this.props.value)}
+            editorProps={{$blockScrolling: Infinity}}
+            setOptions={{
+                showLineNumbers: this.props.lineNumbers,
+                showGutter: this.props.showGutter,
+                useWorker: this.props.useWorker,
+            }}
+            onChange={this.handleChange}
+            onLoad={this.handleLoad}
+        />
     }
 }

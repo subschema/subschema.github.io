@@ -1,99 +1,103 @@
-import React, { Component } from 'react';
-import PropTypes from 'subschema-prop-types';
-import CodeMirror from 'codemirror';
-import 'codemirror/mode/jsx/jsx';
-import './Editor.css';
+import React, {Component} from "react";
+import PropTypes from "subschema-prop-types";
+import AceEditor from "react-ace";
+import "brace/theme/chrome";
+import "brace/mode/javascript";
 
+const mapErrors = (error) => {
+    const row = error.loc && (error.loc.line - 1) || 0;
+    const column = error.loc && error.loc.column || 0;
+    const text = error && error.message;
+
+    return {
+        row,
+        column,
+        text,
+        type: "error"
+    };
+};
+/**
+ * Don't use the built in warnings because babel will have
+ * different allowed inputs.
+ */
 export default class Editor extends Component {
 
-    static propTypes    = {
-        theme            : PropTypes.string,
-        readOnly         : PropTypes.bool,
-        external         : PropTypes.bool,
-        codeText         : PropTypes.string,
-        onChange         : PropTypes.func,
-        style            : PropTypes.object,
-        className        : PropTypes.string,
-        mode             : PropTypes.string,
-        lineNumbers      : PropTypes.bool,
-        lineWrapping     : PropTypes.bool,
-        smartIndent      : PropTypes.bool,
-        matchBrackets    : PropTypes.bool,
-        errors           : PropTypes.array,
-        codeMirrorFactory: PropTypes.func
+    static propTypes = {
+        theme: PropTypes.string,
+        readOnly: PropTypes.bool,
+        external: PropTypes.bool,
+        codeText: PropTypes.string,
+        onChange: PropTypes.func,
+        style: PropTypes.object,
+        className: PropTypes.string,
+        mode: PropTypes.string,
+        lineNumbers: PropTypes.bool,
+        lineWrapping: PropTypes.bool,
+        smartIndent: PropTypes.bool,
+        matchBrackets: PropTypes.bool,
+        useWorker: PropTypes.bool,
+        errors: PropTypes.array,
+        firstLineNumber: PropTypes.number,
+        maxLines: PropTypes.number,
+        highlightActiveLine: PropTypes.bool,
+        useWrapMode: PropTypes.bool
+
     };
     static defaultProps = {
-        mode             : "jsx",
-        lineNumbers      : false,
-        lineWrapping     : true,
-        smartIndent      : false,
-        matchBrackets    : true,
-        codeMirrorFactory: (ele, config) => CodeMirror.fromTextArea(ele,
-            config),
+        theme: 'chrome',
+        useWorker: false,
+        firstLineNumber: 1,
+        mode: 'javascript',
+        lineNumbers: false,
+        lineWrapping: true,
+        smartIndent: false,
+        matchBrackets: true,
+        codeText: '',
+        useWrapMode: true
+    };
+    handleLoad = (editor) => {
+        editor.focus();
+        editor.getSession().setUseWrapMode(this.props.useWrapMode);
+        editor.setHighlightActiveLine(this.props.highlightActiveLine);
+        this._editor = editor;
+        if (this.props.errors) {
+            this.addErrors(this.props);
+        }
     };
 
-    widgets = [];
-    state   = {};
-
-    updateHints(errors) {
-        const { widgets = [], editor } = this;
-        editor.operation(function () {
-            for (let i = 0, l = widgets.length; i < l; ++i) {
-                editor.removeLineWidget(widgets[i]);
-            }
-            widgets.length = 0;
-            if (errors) {
-                for (let i = 0, l = errors.length; i < l; i++) {
-                    const err = errors[i];
-                    if (!err || !err.loc) {
-                        return;
-                    }
-                    console.log('error at ', err.loc);
-                    const msg      = document.createElement("div");
-                    const icon     = msg.appendChild(
-                        document.createElement("span"));
-                    icon.innerHTML = "  ";
-                    icon.className = "lint-error-icon";
-                    msg.appendChild(document.createTextNode(err.message));
-                    msg.className = "CodeMirror-lint-marker-error";
-                    widgets.push(editor.addLineWidget(err.loc.line - 3, msg,
-                        { coverGutter: false, noHScroll: true }));
-                }
-            }
-        });
-    }
-
-    componentDidMount() {
-        const { onChange, codeText, errors, style, className, ...config } = this.props;
-        this.editor                                                       =
-            this.props.codeMirrorFactory(this.refs.editor, config);
-        this.editor.on("change", this._handleChange);
-        this.updateHints(errors);
-    }
-
-    componentWillReceiveProps({ errors }) {
-        if (errors != this.props.errors) {
-            this.updateHints(errors);
+    componentWillReceiveProps(props) {
+        if (this.props.errors != props.errors) {
+            this.addErrors(props);
         }
     }
 
-    componentDidUpdate() {
-        if (this.props.readOnly || this.props.external) {
-            this.editor.setValue(this.props.codeText);
-        }
+    addErrors({errors}) {
+        if (!this._editor)
+            return;
+        errors = errors || [];
+        const session = this._editor.getSession();
+        session.setAnnotations(errors.map(mapErrors));
     }
-
-    _handleChange = () => {
-        if (!this.props.readOnly && this.props.onChange) {
-            this.props.onChange(this.editor.getValue());
-        }
-    };
 
     render() {
-        return (
-            <div style={this.props.style} className={this.props.className}>
-                <textarea ref="editor" defaultValue={this.props.codeText}/>
-            </div>
-        );
+        return <AceEditor
+            mode={this.props.mode}
+            theme={this.props.theme}
+            onChange={this.props.onChange}
+            name='editor'
+            readOnly={this.props.readOnly}
+            lineNumbers={true}
+            value={this.props.codeText.trim()}
+            editorProps={{$blockScrolling: true}}
+            maxLines={this.props.maxLines}
+            width="100%"
+            setOptions={{
+                firstLineNumber: this.props.firstLineNumber,
+                highlightActiveLine: this.props.highlightActiveLine,
+                useWorker: this.props.useWorker
+            }}
+            onLoad={this.handleLoad}
+        />
+
     }
 }

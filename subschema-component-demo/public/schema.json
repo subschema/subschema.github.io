@@ -26,6 +26,12 @@
       "type": "SchemaEditor",
       "template": false
     },
+    "docs": {
+      "type": "Navigate",
+      "template": false,
+      "label": "{.label}",
+      "href": "#/docs/{.name}"
+    },
     "samples": {
       "type": "Navigate",
       "template": false,
@@ -34,13 +40,14 @@
     "main": {
       "type": "Routes",
       "routes": {
-        "/doc/:page": "Doc",
+        "/docs/:Doc": "Doc",
         "/:example": "Example",
         "": "Index"
       }
     },
     "submit": {
-      "type": "Submit"
+      "type": "DisplayValueAndErrors",
+      "template": false
     }
   },
   "fieldsets": [
@@ -65,16 +72,15 @@
         },
         {
           "template": "ModalTemplate",
-          "fields": "submit",
+          "fields": [
+            "submit"
+          ],
           "content": "Values to be Submitted",
           "legend": "Submit Called",
-          "buttons": [],
-          "conditional": {
-            "listen": "submit",
-            "dismiss": "submit",
-            "value": null,
-            "operator": "truthy"
-          }
+          "buttons": [
+            "Cancel"
+          ],
+          "conditional": "submit"
         },
         {
           "className": "row",
@@ -87,7 +93,12 @@
                   "template": "H3"
                 },
                 {
-                  "fields": "samples"
+                  "fields": "docs",
+                  "legend": "Documentation"
+                },
+                {
+                  "fields": "samples",
+                  "legend": "Examples"
                 },
                 {
                   "legend": "Develop",

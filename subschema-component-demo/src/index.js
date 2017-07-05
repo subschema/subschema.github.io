@@ -1,21 +1,24 @@
-import React from 'react';
-import _Example from './Example.jsx';
-import _DynamicSchema from './DynamicSchema';
-import _UpdateValue from './UpdateValue.jsx';
-import _Submit from './Submit.jsx';
-import _NewProject from './NewProject';
-import _Highlight from './Highlight';
+import React from "react";
 
+import _Example from "./Example.jsx";
+import _DynamicSchema from "./DynamicSchema";
+import _UpdateValue from "./UpdateValue.jsx";
+import _NewProject from "./NewProject";
+import _Doc from "./Doc";
+import _loader from "./loader";
+import PropTypes from './PropTypes';
 export const DynamicSchema = _DynamicSchema;
-export const Example       = _Example;
-export const UpdateValue   = _UpdateValue;
-export const Submit        = _Submit;
-export const NewProject    = _NewProject;
-export const Highlight     = _Highlight;
+export const Example = _Example;
+export const UpdateValue = _UpdateValue;
+export const NewProject = _NewProject;
+export const Doc = _Doc;
 
-export const types     = {
+export const resolvers = new Map([[PropTypes.loader, _loader]]);
+
+export const types = {
     Example,
-    UpdateValue, Submit, DynamicSchema, Highlight, NewProject
+    Doc,
+    UpdateValue, DynamicSchema, NewProject
 };
 export const templates = {
 
@@ -25,4 +28,4 @@ export const templates = {
 };
 
 
-export default ({ types, templates });
+export default ({types, templates, resolvers});

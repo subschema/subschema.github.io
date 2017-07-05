@@ -42,7 +42,7 @@ ${restOfCode}
 }
 
 export function source(managed, template = form) {
-    const codeText = normalize(managed);
+    const codeText = managed.codeText || normalize(managed);
     const formText = template ? template(managed) : '';
     return `${codeText}\n${formText}`;
 

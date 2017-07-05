@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
-import PropTypes from 'subschema-prop-types';
+import React, {Component} from "react";
+import PropTypes from "subschema-prop-types";
+import SchemaEditor from "./SchemaEditor";
 
-/**
- * This class is used to display errors and or values.
- */
-function stringify(obj) {
+const stringify = (obj) => {
+    if (obj == null) return '';
     return JSON.stringify(obj, null, 2);
 }
 export default class DisplayValueAndErrors extends Component {
@@ -17,14 +16,19 @@ export default class DisplayValueAndErrors extends Component {
     render() {
         return <div className="form-group">
             <h3>Values:</h3>
- <pre className='value-manager-node-value'>
- {stringify(this.props.value)}
- </pre>
+            <SchemaEditor readOnly={true}
+                          useWorker={false}
+                          showGutter={false}
+                          highlightActiveLine={false}
+                          lineNumbers={false}
+                          value={stringify(this.props.value)}/>
             <h3>Errors:</h3>
- <pre className='value-manager-node-error'>
- {this.props.errors ? stringify(this.props.errors) : 'No Errors.'}
- </pre>
-
+            <SchemaEditor readOnly={true}
+                          useWorker={false}
+                          showGutter={false}
+                          highlightActiveLine={false}
+                          lineNumbers={false}
+                          value={stringify(this.props.errors || "No Errors")}/>
         </div>
     }
-}
+};

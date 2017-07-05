@@ -1,37 +1,38 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {newSubschemaContext} from 'subschema';
-import {transform, availablePlugins} from "babel-core";
-import {source, normalize} from 'subschema-project/lib/compile';
+import {availablePlugins, transform} from 'babel-core';
+import {normalize, source} from 'subschema-project/lib/compile';
 import Editor from './Editor';
 import babelrcOrig from 'subschema-dev-support/babelrc.json';
 import form from 'subschema-project/lib/form';
 
+
 //expose for configuration.
 export const babelrc = {
     ...babelrcOrig,
-    retainLines: true
+    retainLines:true
 };
 function createForm(props) {
-    return form({sample: {props}});
+    return form({ sample:{ props } });
 }
 export default class Compiler extends Component {
-    static propTypes = {
-        editorCode: PropTypes.string,
-        schema: PropTypes.object.isRequired,
-        value: PropTypes.object,
-        setupTxt: PropTypes.string,
-        errors: PropTypes.object,
-        useData: PropTypes.bool,
-        useErrors: PropTypes.bool,
-        filename: PropTypes.string.isRequired,
-        theme: PropTypes.string,
-        props: PropTypes.array,
-        imports: PropTypes.object
+    static propTypes    = {
+        editorCode:PropTypes.string,
+        schema    :PropTypes.object.isRequired,
+        value     :PropTypes.object,
+        setupTxt  :PropTypes.string,
+        errors    :PropTypes.object,
+        useData   :PropTypes.bool,
+        useErrors :PropTypes.bool,
+        filename  :PropTypes.string.isRequired,
+        theme     :PropTypes.string,
+        props     :PropTypes.array,
+        imports   :PropTypes.object
 
     };
     static defaultProps = {
-        theme: "monokai",
+        theme:'monokai',
 
         onError(error){
         },
@@ -41,8 +42,8 @@ export default class Compiler extends Component {
     };
 
     state = {
-        schema: this.props.schema,
-        value: this.props.value
+        schema:this.props.schema,
+        value :this.props.value
     };
 
     componentWillMount() {
@@ -50,22 +51,23 @@ export default class Compiler extends Component {
     }
 
     editorCodeFromSampleText(newProps) {
-        const {setupTxt, useData, useErrors, value, imports, props, schema, errors} = newProps;
+        const { setupTxt, useData, useErrors, value, imports, props, schema, errors } = newProps;
         this.handleUpdate(normalize({
             useData,
             useErrors,
-            sample: {schema, props, setupTxt, value: useData ? value : null, errors: useErrors ? errors : null}
+            sample:{ schema, props, setupTxt, value:useData ? value : null, errors:useErrors ? errors : null }
         }), newProps);
     };
 
     handleUpdate(editorCode, props) {
-        const {schema, value, errors, useData, useErrors, ...rest} = props;
-        rest.sample = {schema, sampleTxt: editorCode, value, errors};
+        const { schema, value, errors, useData, useErrors, ...rest } = props;
+
+        rest.sample = { schema, sampleTxt:editorCode, value, errors };
         //update editorCode no matter what so that errors can be resolved.
         if (this.state.editorCode === editorCode) {
             return;
         }
-        this.setState({editorCode});
+        this.setState({ editorCode });
         let func;
         try {
             //babel lize the code
@@ -76,12 +78,12 @@ export default class Compiler extends Component {
             `);
         } catch (error) {
             console.trace(error);
-            this.setState({error});
+            this.setState({ error });
             this.props.onError(error);
             //syntax error likely
             return;
         }
-        let {loader, valueManager, importer} = newSubschemaContext();
+        let { loader, valueManager, importer } = newSubschemaContext();
         if (useData) {
             valueManager.setValue(value);
         }
@@ -90,16 +92,17 @@ export default class Compiler extends Component {
         }
 
         try {
-            const context = func(importer, this.state.schema, valueManager, loader);
-            this.setState({context});
+            const context    = func(importer, this.state.schema, valueManager, loader);
+            context.editorCode = editorCode;
+            this.setState({ context });
             this.props.onContextChange(context);
         } catch (error) {
             console.trace(error);
-            this.setState({error});
+            this.setState({ error });
             this.props.onError(error);
             return;
         }
-        this.setState({error: null});
+        this.setState({ error:null });
 
 
     }
@@ -107,19 +110,19 @@ export default class Compiler extends Component {
     handleEditorChange = (editorCode) => {
         clearTimeout(this._to);
         this._to = setTimeout(() => {
-            this.handleUpdate(editorCode, this.props)
+            this.handleUpdate(editorCode, this.props);
         }, 500);
     };
 
 
     componentWillReceiveProps(nextProps) {
-        const {setupTxt} = nextProps;
+        const { setupTxt } = nextProps;
         //new sample.
         if (this.props.filename != nextProps.filename) {
             this.editorCodeFromSampleText(nextProps);
             //state change
         } else if (this.props.useErrors != nextProps.useErrors || this.props.useData != nextProps.useData) {
-            const {context} = this.state;
+            const { context } = this.state;
             if (context && context.valueManager) {
 
                 if (nextProps.useData) {
@@ -150,23 +153,22 @@ export default class Compiler extends Component {
                 theme={this.props.theme}
                 errors={this.state.error ? [this.state.error] : null}
                 lineNumbers={true}
-                mode={"javascript"}
-                gutters={["CodeMirror-lint-markers"]}
-                lint={true}
             />
             <div className="prelude">
                 <Editor readOnly={true}
-                        className="playgroundStage"
+                        maxLines={1}
+                        useWorker={false}
+                        firstLineNumber={this.state.editorCode.split('\n').length + 1}
                         codeText={createForm(this.props.form)}
                         theme={this.props.theme}
                 />
             </div>
 
-        </div>)
+        </div>);
     }
 
     //let the compiler do its thing regardless.
     render() {
-        return this.props.display ? this.renderEditor() : <span key="no-show"/>
+        return this.props.display ? this.renderEditor() : <span key="no-show"/>;
     }
 }

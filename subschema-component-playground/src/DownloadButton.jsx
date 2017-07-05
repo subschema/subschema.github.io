@@ -9,6 +9,7 @@ export default class DownloadButton extends Component {
     static propTypes = {
         type: PropTypes.oneOf(['project', 'page']),
         filename: PropTypes.string.isRequired,
+        editorCode:PropTypes.string
     };
 
     static defaultProps = {
@@ -81,6 +82,7 @@ export default class DownloadButton extends Component {
                 version: '1.0.0'
             },
             demo: {},
+            codeText:this.props.editorCode,
             ...sample
         }, this.props.type, `${ext}-blob`)).then(this.handleBlob);
 

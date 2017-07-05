@@ -1,6 +1,6 @@
 {
   "name": "subschema.wiki",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Subschema Wiki",
   "main": "src/index.js",
   "scripts": {
@@ -10,6 +10,6 @@
     "markdown-it": "^8.3.1"
   },
   "devDependencies": {
-    "subschema-dev-support": "^2.1.1"
+    "subschema-dev-support": "^2.2.0"
   }
 }

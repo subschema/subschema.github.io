@@ -32,3 +32,9 @@ More on [Subschema](https://github.com/subschema/subschema), [demo](https://subs
   # on Mac
   $ open http://localhost:8082
 ```
+# Publishing
+```sh
+ $ ./node_modules/.bin/lerna --force-publish=*
+ $ yarn run demo
+ $
+```

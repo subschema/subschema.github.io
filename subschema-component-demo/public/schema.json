@@ -29,7 +29,7 @@
     "docs": {
       "type": "Navigate",
       "template": false,
-      "label":"{.label}",
+      "label": "{.label}",
       "href": "#/docs/{.name}"
     },
     "samples": {
@@ -40,13 +40,14 @@
     "main": {
       "type": "Routes",
       "routes": {
-        "/docs/:doc": "Doc",
+        "/docs/:Doc": "Doc",
         "/:example": "Example",
         "": "Index"
       }
     },
     "submit": {
-      "type": "Submit"
+      "type": "DisplayValueAndErrors",
+      "template": false
     }
   },
   "fieldsets": [
@@ -71,16 +72,15 @@
         },
         {
           "template": "ModalTemplate",
-          "fields": "submit",
+          "fields": [
+            "submit"
+          ],
           "content": "Values to be Submitted",
           "legend": "Submit Called",
-          "buttons": [],
-          "conditional": {
-            "listen": "submit",
-            "dismiss": "submit",
-            "value": null,
-            "operator": "truthy"
-          }
+          "buttons": [
+            "Cancel"
+          ],
+          "conditional": "submit"
         },
         {
           "className": "row",
@@ -93,10 +93,12 @@
                   "template": "H3"
                 },
                 {
-                  "fields": "docs"
+                  "fields": "docs",
+                  "legend": "Documentation"
                 },
                 {
-                  "fields": "samples"
+                  "fields": "samples",
+                  "legend": "Examples"
                 },
                 {
                   "legend": "Develop",

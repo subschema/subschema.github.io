@@ -5,14 +5,14 @@ function resolve(value, key, props, context) {
     const valueIsFunction = typeof value === 'function';
     if (valueIsFunction) {
         if (this.constructor.defaultProps &&
-            value === this.constructor.defaultProps[key]) {
+            value !== this.constructor.defaultProps[key]) {
             return value;
         }
     }
     const resolvedPath = valueIsFunction ? resolveKey(props.path) : resolveKey(
         props.path, value);
     if (resolvedPath == null) {
-        return noop;
+        return value;
     }
     return function (v, overridePath) {
         context.valueManager.update(overridePath || resolvedPath, v);

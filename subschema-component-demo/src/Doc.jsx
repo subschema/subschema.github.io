@@ -1,17 +1,17 @@
 import React, {Component} from "react";
 import PropTypes from "subschema-prop-types";
+import {loader} from "./PropTypes";
 
-export default class Example extends Component {
+export default class Doc extends Component {
 
     static contextTypes = PropTypes.contextTypes;
 
     static propTypes = {
-        conf: PropTypes.any,
-        doc: PropTypes.string
+        Doc: loader
     };
 
     render() {
-        const Doc = this.context.loader.loadDoc(this.props.doc);
+        const {Doc} = this.props;
         return <Doc/>
     }
 }

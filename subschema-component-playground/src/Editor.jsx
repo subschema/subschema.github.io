@@ -4,6 +4,22 @@ import AceEditor from "react-ace";
 import "brace/theme/chrome";
 import "brace/mode/javascript";
 
+const mapErrors = (error) => {
+    const row = error.loc && (error.loc.line - 1) || 0;
+    const column = error.loc && error.loc.column || 0;
+    const text = error && error.message;
+
+    return {
+        row,
+        column,
+        text,
+        type: "error"
+    };
+};
+/**
+ * Don't use the built in warnings because babel will have
+ * different allowed inputs.
+ */
 export default class Editor extends Component {
 
     static propTypes = {
@@ -29,7 +45,7 @@ export default class Editor extends Component {
     };
     static defaultProps = {
         theme: 'chrome',
-        useWorker: true,
+        useWorker: false,
         firstLineNumber: 1,
         mode: 'javascript',
         lineNumbers: false,
@@ -43,7 +59,25 @@ export default class Editor extends Component {
         editor.focus();
         editor.getSession().setUseWrapMode(this.props.useWrapMode);
         editor.setHighlightActiveLine(this.props.highlightActiveLine);
+        this._editor = editor;
+        if (this.props.errors) {
+            this.addErrors(this.props);
+        }
     };
+
+    componentWillReceiveProps(props) {
+        if (this.props.errors != props.errors) {
+            this.addErrors(props);
+        }
+    }
+
+    addErrors({errors}) {
+        if (!this._editor)
+            return;
+        errors = errors || [];
+        const session = this._editor.getSession();
+        session.setAnnotations(errors.map(mapErrors));
+    }
 
     render() {
         return <AceEditor

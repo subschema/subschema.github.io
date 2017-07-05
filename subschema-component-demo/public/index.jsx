@@ -17,21 +17,34 @@ const history = createHistory({
 
 });
 loader.addType({Index});
-loader.loaderType('Sample');
+loader.loaderType('Example');
 loader.loaderType('Doc');
-loader.addSamples(samples);
+loader.addExamples(samples);
 loader.addDocs(docs);
 
 const valueManager = ValueManager({
-    samples: loader.listSamples().map(v => v.name),
+    samples: loader.listExamples().map(v => {
+        if (v.value && !v.value.name) {
+            v.value.name = v.name;
+        }
+        return v.name
+
+    }),
     docs: loader.listDocs().filter(v => v.name !== 'Home').map(v => ({name: v.name, label: v.name.replace(/_/g, ' ')})),
     subschemaVersion: SUBSCHEMA_VERSION,
     schema
 });
 
+const handleSubmit = (e, error, value) => {
+    e && e.preventDefault();
+
+    valueManager.update('submit', {error, value})
+};
+
 render(<NavigationForm valueManager={valueManager} history={history}
                        schema={"schema"}
                        ObjectType={DynamicSchema}
                        loader={loader}
+                       onSubmit={handleSubmit}
                        template="FieldSetTemplate"/>,
     document.getElementById('content'));

@@ -128,19 +128,19 @@ function aliasDependencies(userPkg = pkg()) {
 function _filteredDependencies(userPkg = pkg(), includes,
                                excludes = [DEFAULT_EXCLUDE]) {
 
-    var all = [userPkg.name].concat(
+    var all = [].concat(
         keys(userPkg.dependencies, userPkg.devDependencies,
             userPkg.peerDependencies));
     if (!all) {
-        return [];
+        return [userPkg.name];
     }
     var isExclude = wrapExcludes(excludes);
     var isInclude = includes ? wrapExcludes(includes) : () => false;
     var filteredExcludes = all.filter(isExclude);
     var filteredIncludes = all.filter(isInclude);
-    var ret = unique(filteredExcludes, filteredIncludes);
+    var ret = unique([userPkg.name], filteredExcludes, filteredIncludes);
 
-    return !ret ? [] : ret;
+    return !ret ? [userPkg.name] : ret;
 
 }
 
@@ -264,10 +264,19 @@ function useCustomConf(customConf, confFile = SUBSCHEMA_CONF, deps = pkg()) {
             }
         }
     });
-    if (fs.existsSync(project(confFile))) {
-        customConf = applyFuncs(customConf, require(project(confFile)));
-    }
+
     return customConf;
+}
+function makeAlias(ret, key) {
+    ret[key + '/lib/style.css'] = dependency(key, 'lib', 'style.css');
+    ret[key] =
+        ret[key + '/lib'] = dependency(key, 'src');
+    if (process.env.SUBSCHEMA_KARMA) {
+        ret[key + '/test'] = dependency(key, 'test');
+        ret[key + '/'] = dependency(key, 'src');
+
+    }
+    return ret;
 }
 function useDepAlias(alias = {}, deps = pkg()) {
     var aliasArr = [];
@@ -281,17 +290,7 @@ function useDepAlias(alias = {}, deps = pkg()) {
         aliasArr = unique([deps.name],
             process.env.SUBSCHEMA_DEPENDENCY_ALIASES.split(/,\s*/));
     }
-    const r = aliasArr.filter(hasSource).reduce(function (ret, key) {
-        ret[key + '/lib/style.css'] = dependency(key, 'lib', 'style.css');
-        ret[key] =
-            ret[key + '/lib'] = dependency(key, 'src');
-        if (process.env.SUBSCHEMA_KARMA) {
-            ret[key + '/test'] = dependency(key, 'test');
-            ret[key + '/'] = dependency(key, 'src');
-
-        }
-        return ret;
-    }, alias);
+    const r = aliasArr.filter(hasSource).reduce(makeAlias, alias);
     return r;
 }
 

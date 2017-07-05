@@ -8,13 +8,15 @@ The resolver api resolves PropTypes to resolver functions.
 ## Registering a resolver.
 You register a resolver by calling
 ```
- import {injector, PropTypes} from 'subschema';
+ import {loader} from 'subschema';
+ import PropTypes from 'subschema-prop-types';
  
 //Note you do not use the React built in propTypes, you need a unique PropType instance
 // so you can do this instead.
  const customPropType = PropTypes.oneOfType([PropTypes.string]);
- injector.resolver(customPropType, resolver);
+ loader.addResolver(customPropType, resolver);
 ```
+
 ## Writing a resolver
 Resolvers usually fall into 2 categories, "property" when you just want to munge the property
 before passing it into the component, and "listener" when you want to listen to
@@ -96,15 +98,15 @@ injector.resolver(countdown, function countdownResolver(Clazz, key) {
 
 //use it in a class
 
-class CountDown extends Component {
+class Count extends Component {
   static propTypes = {
      count:countdown
   }
   static defaultProps = {
-     count:5 <- unless configured otherwise, it will start at 5.
+     count:5 //<- unless configured otherwise, it will start at 5.
   }
   render(){
-     //this.props.count <- will be change every second for 5 seconds.
+     <div>{this.props.count}</div> <- will be change every second for 5 seconds.
   }
 } 
 

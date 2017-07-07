@@ -85,7 +85,7 @@ Effective .babelrc, although these tools do not actually use the babelrc this is
 }
 ```
 
-## [#subschema-webpack](Webpack)
+## Webpack
 This tool is designed to compile your code with webpack. It respects all the [webpack cli](https://webpack.js.org/api/cli/) but has been extended to be easier in multimodule projects.  Part of what
 this does is creates alias to make debugging and changing multiple modules easier in dev mode and compile and biuld modes.
 

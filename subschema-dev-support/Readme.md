@@ -114,7 +114,7 @@ Argument       | Value  |Description
  --debug|| output some debug information.
 
 
-## [subschema-webpack.config](#Custom Webpack Configuration)
+### Custom Webpack Configuration
 Sometimes you need to change webpacks configuration.   subschema-webpack extends normal webpack behaviour to look into the dependencies and the current project for a `subschema-webpack.config.js` 
 if this file exists it attempts to load it.   this file differs from traditional webpack as that
 it is expected to be a function 

@@ -92,26 +92,26 @@ this does is creates alias to make debugging and changing multiple modules easie
 
 Environmental Variables
 
-Name                   |  Default   | Description
------------------------+------------+------------
-SUBSCHEMA\_USE\_NAME\_HASH|            | Use hashes in filenames
-SUBSCHEMA\_NO\_STYLE\_LOADER| 1      | Disable style loader.
-SUBSCHEMA\_USE\_HTML    | 1 | Use html templates
-SUBSCHEMA\_USE\_STATS\_FILE | 1 | Use stats file
-SUBSCHEMA\_USE\_EXTERNALS| 1 | Use externals react,react-dom,prop-types
+| Name                        |  Default   | Description
+| --------------------------- |:----------:|:-----------
+| SUBSCHEMA\_USE\_NAME\_HASH  |            | Use hashes in filenames
+| SUBSCHEMA\_NO\_STYLE\_LOADER| 1          | Disable style loader.
+| SUBSCHEMA\_USE\_HTML        | 1          | Use html templates
+| SUBSCHEMA\_USE\_STATS\_FILE | 1          | Use stats file
+| SUBSCHEMA\_USE\_EXTERNALS   | 1          | Use externals react,react-dom,prop-types
 
 
 Cli Arguments
 
-Argument       | Value  |Description
----------------+--------+----
- --demo | [path] | generate a demo app a that location 
- --no-style-loader | |don't use style loader (better for server side).
- --use-stats-file | [file] |output a file with css and compiled information.
- --use-externals |list of modules to externalize |  use the following as externals react,...
- --externalize-peers | (default) use this to make externalize the peerDependencies.
- --no-externalize-peers | |Do not externalize peer dependencies.
- --debug|| output some debug information.
+| Argument               | Value     |Description
+| -----------------------|:---------:|:----
+| --demo                 | [path]    | generate a demo app a that location 
+| --no-style-loader      |           | don't use style loader (better for server side).
+| --use-stats-file       | [file]    | output a file with css and compiled information.
+| --use-externals        | [modules] | use the following as externals react,...
+| --externalize-peers    |           | (default) use this to make externalize the peerDependencies.
+| --no-externalize-peers |           | Do not externalize peer dependencies.
+| --debug                |           | output some debug information.
 
 
 ### Custom Webpack Configuration

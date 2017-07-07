@@ -50,11 +50,11 @@ $ npm run server
 
 Included tools-
 
- * [Babel](#Babel)
- * [Webpack](#Webpack)
- * [Webpack DevServer](#Webpack DevServer)
- * [Mocha](#Mocha)
- * [Karma](#Karma)
+ * [Babel](#user-content-babel)
+ * [Webpack](#user-content-webpack)
+ * [Webpack DevServer](#user-content-webpack-dev-server)
+ * [Mocha](#user-content-mocha)
+ * [Karma](#user-content-karma)
 
 ## Babel
 Subschema uses babel to compile source code.  This command is for when you don't need webpack to do the compiling. The arguments are the same as [babel-cli](https://babeljs.io/docs/usage/cli/) but are defaulted to

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { clone, noop, resolveKey } from 'subschema-utils';
 import UninjectedObjectType from 'subschema-core/lib/Object';
 import PropTypes from 'subschema-prop-types';
@@ -22,7 +22,7 @@ const isEmpty = (v) => {
 
     return false;
 };
-export default class CollectionMixin extends PureComponent {
+export default class CollectionMixin extends Component {
 
     static inputClassName = 'list-editor';
     static contextTypes   = {
@@ -53,10 +53,13 @@ export default class CollectionMixin extends PureComponent {
         ObjectType        : PropTypes.injectClass,
         value             : PropTypes.value,
         title             : PropTypes.string,
-        errors            : PropTypes.errors
+        errors            : PropTypes.errors,
+        addAt             : PropTypes.oneOf(
+            ['top', 'bottom', 'bottom-list', 'top-list'])
     };
 
     static defaultProps = {
+        addAt          : 'top',
         onWillReorder  : noop,
         onWillChange   : noop,
         onWillAdd      : noop,
@@ -91,6 +94,7 @@ export default class CollectionMixin extends PureComponent {
         },
         ObjectType     : UninjectedObjectType
     };
+
 
     getValue() {
         return this.props.value;
@@ -186,14 +190,21 @@ export default class CollectionMixin extends PureComponent {
             return null;
         }
 
-        const {
-                  editTemplate, createTemplate,
-                  editPath: { mode, path, schema },
-                  ObjectType,
-                  inline,
-                  title,
-              }      = this.props;
+
+        let {
+                editTemplate, createTemplate,
+                ObjectType,
+                editPath: {
+                    mode, path, schema
+                },
+                inline,
+                title,
+            } = this.props;
+
         const isEdit = mode === 'edit';
+        schema       = schema || this.createItemSchema(isEdit);
+        path         = path || resolveKey(this.props.path, settings.editPath);
+
 
         const children = <ObjectType
             key={`editForm-${path}`}
@@ -235,10 +246,11 @@ export default class CollectionMixin extends PureComponent {
             return this.renderAddBtn();
         }
         const { mode } = this.props.editPath;
+
         if (mode) {
             if (this.props.inline) {
                 if (mode === 'edit') {
-                    return null;
+                    return this.renderAddBtn();
                 }
             }
             return this.renderAddEditTemplate()
@@ -280,6 +292,8 @@ export default class CollectionMixin extends PureComponent {
 
         const children = isEditItem ? this.renderAddEditTemplate(value, false)
             : renderTemplate({
+                ...this.props,
+                buttons : false,
                 template: contentTemplate,
                 key     : `render-inline-${key}`,
                 onClick : this.props.canEdit ? this.handleEdit : null,
@@ -315,13 +329,24 @@ export default class CollectionMixin extends PureComponent {
         })
     }
 
+    renderAddInList() {
+        return renderTemplate({
+            template: this.props.itemTemplate,
+            children: this.renderAdd()
+        });
+    }
+
     render() {
         const { className, listContainerClass } = this.props;
         return (<div className={className}>
-            {this.renderAdd()}
+            {this.props.addAt === 'top' ? this.renderAdd() : null }
             <ul key='container' className={listContainerClass}>
+                {this.props.addAt == 'top-list' ? this.renderAddInList() : null}
                 {this.renderRows()}
+                {this.props.addAt == 'bottom-list' ? this.renderAddInList()
+                    : null}
             </ul>
+            {this.props.addAt === 'bottom' ? this.renderAdd() : null }
         </div>);
     }
 

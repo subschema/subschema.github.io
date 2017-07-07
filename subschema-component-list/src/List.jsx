@@ -1,5 +1,5 @@
 import React from 'react';
-import { isString } from 'subschema-utils';
+import { isString, concat } from 'subschema-utils';
 import CollectionMixin from './CollectionMixin';
 import PropTypes from 'subschema-prop-types';
 

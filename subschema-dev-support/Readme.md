@@ -50,13 +50,13 @@ $ npm run server
 
 Included tools-
 
- * [#Babel](subschema-babel)
- * [#Webpack](subschema-webpack)
- * [#Webpack DevServer](subschema-webpack-dev-server)
- * [#Mocha](subschema-mocha)
- * [#Karma](subschema-karma)
+ * [Babel](#Babel)
+ * [Webpack](#Webpack)
+ * [Webpack DevServer](#Webpack DevServer)
+ * [Mocha](#Mocha)
+ * [Karma](#Karma)
 
-## [subschema-babel](Babel)
+## Babel
 Subschema uses babel to compile source code.  This command is for when you don't need webpack to do the compiling. The arguments are the same as [babel-cli](https://babeljs.io/docs/usage/cli/) but are defaulted to
 
 ```sh
@@ -85,7 +85,7 @@ Effective .babelrc, although these tools do not actually use the babelrc this is
 }
 ```
 
-## [subschema-webpack](Webpack)
+## [#subschema-webpack](Webpack)
 This tool is designed to compile your code with webpack. It respects all the [webpack cli](https://webpack.js.org/api/cli/) but has been extended to be easier in multimodule projects.  Part of what
 this does is creates alias to make debugging and changing multiple modules easier in dev mode and compile and biuld modes.
 
@@ -114,7 +114,7 @@ Argument       | Value  |Description
  --debug|| output some debug information.
 
 
-## [subschema-webpack.config](Custom Webpack Configuration)
+## [subschema-webpack.config](#Custom Webpack Configuration)
 Sometimes you need to change webpacks configuration.   subschema-webpack extends normal webpack behaviour to look into the dependencies and the current project for a `subschema-webpack.config.js` 
 if this file exists it attempts to load it.   this file differs from traditional webpack as that
 it is expected to be a function 
@@ -145,13 +145,13 @@ package.json
 
 
 
-## [subschema-mocha](Mocha)
+## Mocha
 For non browser testing we use plain mocha. Its faster and easier to run than Karma but can not do browsery things. It uses the same babel configuration as subschema-babel. It uses a combination of environmental variables and arguments for configuration, though typically it takes neither.
 
 * SUBSCHEMA_COVERAGE_DIR=./converage turns on test coverage
 * SUBSCHEMA_COVERAGE=1 turns on coverage
 
-## [subschema-karma](Karma)
+## Karma
 Karma testing is useful for testing in browser.  This configuration
 uses the aformentioned webpack with the following additional settings.
 

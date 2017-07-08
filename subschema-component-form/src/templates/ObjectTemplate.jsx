@@ -6,3 +6,4 @@ export default function ObjectTemplate(props) {
         {children}
     </div>);
 }
+ObjectTemplate.displayName = 'ObjectTemplate';

@@ -8,3 +8,4 @@ export default function NotFound() {
         </p>
     </div>
 }
+NotFound.displayName = 'NotFound';

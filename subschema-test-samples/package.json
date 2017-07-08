@@ -1,6 +1,6 @@
 {
   "name": "subschema-test-samples",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "Subschema samples",
   "main": "lib/index.js",
   "scripts": {
@@ -14,29 +14,29 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "rimraf": "^2.6.1",
-    "subschema": "^2.2.5",
-    "subschema-component-autocomplete": "^2.2.5",
-    "subschema-component-form": "^2.2.5",
-    "subschema-component-list": "^2.2.5",
-    "subschema-component-modal": "^2.2.5",
-    "subschema-component-wizard": "^2.2.5",
-    "subschema-core": "^2.2.5",
-    "subschema-css-bootstrap": "^2.2.5",
-    "subschema-dev-support": "^2.2.5",
-    "subschema-expression": "^2.2.5",
-    "subschema-injection": "^2.2.5",
-    "subschema-loader": "^2.2.5",
-    "subschema-processors": "^2.2.5",
-    "subschema-prop-types": "^2.2.5",
-    "subschema-test-support": "^2.2.5",
-    "subschema-transitions": "^2.2.5",
-    "subschema-utils": "^2.2.5",
-    "subschema-validators": "^2.2.5",
-    "subschema-valuemanager": "^2.2.5"
+    "subschema": "^2.2.6",
+    "subschema-component-autocomplete": "^2.2.6",
+    "subschema-component-form": "^2.2.6",
+    "subschema-component-list": "^2.2.6",
+    "subschema-component-modal": "^2.2.6",
+    "subschema-component-wizard": "^2.2.6",
+    "subschema-core": "^2.2.6",
+    "subschema-css-bootstrap": "^2.2.6",
+    "subschema-dev-support": "^2.2.6",
+    "subschema-expression": "^2.2.6",
+    "subschema-injection": "^2.2.6",
+    "subschema-loader": "^2.2.6",
+    "subschema-processors": "^2.2.6",
+    "subschema-prop-types": "^2.2.6",
+    "subschema-test-support": "^2.2.6",
+    "subschema-transitions": "^2.2.6",
+    "subschema-utils": "^2.2.6",
+    "subschema-validators": "^2.2.6",
+    "subschema-valuemanager": "^2.2.6"
   },
   "peerDependencies": {
     "react": "*",
     "react-dom": "*",
-    "subschema": "^2.2.5"
+    "subschema": "^2.2.6"
   }
 }

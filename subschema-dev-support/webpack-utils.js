@@ -1,6 +1,6 @@
-var path = require('path');
+var path           = require('path');
 var SUBSCHEMA_CONF = 'subschema-webpack.config.js';
-var fs = require('fs');
+var fs             = require('fs');
 
 var asArray = Function.call.bind(Array.prototype.slice);
 function project() {
@@ -52,7 +52,7 @@ function wrapExcludes(excludes = []) {
     excludes = excludes ? Array.isArray(excludes) ? excludes : [excludes] : [];
     excludes = excludes.map(function (str) {
         var isNegate = str.startsWith('!');
-        var _re = new RegExp(re(str));
+        var _re      = new RegExp(re(str));
         return function (v) {
             var ret = isNegate ? !_re.test(v) : _re.test(v);
             return ret;
@@ -111,8 +111,8 @@ function concatFilteredDependencies(core, userPkg = pkg()) {
 }
 function filteredDependencies(userPkg = pkg()) {
     var subschema = userPkg.subschema;
-    var include = subschema && subschema.include;
-    var exclude = subschema && subschema.exclude;
+    var include   = subschema && subschema.include;
+    var exclude   = subschema && subschema.exclude;
     if (include) {
         include = Array.isArray(include) ? include : [include];
     }
@@ -122,25 +122,28 @@ function filteredDependencies(userPkg = pkg()) {
     return _filteredDependencies(userPkg, include, exclude);
 }
 function aliasDependencies(userPkg = pkg()) {
-    const {include =[], exclude =  [DEFAULT_EXCLUDE]} = userPkg.subschema || {};
+    const { include = [], exclude = [DEFAULT_EXCLUDE] } = userPkg.subschema
+                                                          || {};
     return _filteredDependencies(userPkg, include, exclude);
 }
-function _filteredDependencies(userPkg = pkg(), includes,
+function _filteredDependencies(userPkg  = pkg(), includes,
                                excludes = [DEFAULT_EXCLUDE]) {
 
     var all = [].concat(
         keys(userPkg.dependencies, userPkg.devDependencies,
             userPkg.peerDependencies));
     if (!all) {
-        return [userPkg.name];
+        return userPkg.name ? [userPkg.name] : [];
     }
-    var isExclude = wrapExcludes(excludes);
-    var isInclude = includes ? wrapExcludes(includes) : () => false;
+    var isExclude        = wrapExcludes(excludes);
+    var isInclude        = includes ? wrapExcludes(includes) : () => false;
     var filteredExcludes = all.filter(isExclude);
     var filteredIncludes = all.filter(isInclude);
-    var ret = unique([userPkg.name], filteredExcludes, filteredIncludes);
+    var ret              = unique(userPkg.name ? [userPkg.name] : [],
+        filteredExcludes,
+        filteredIncludes);
 
-    return !ret ? [userPkg.name] : ret;
+    return !ret ? userPkg.name ? [userPkg.name] : [] : ret;
 
 }
 
@@ -161,10 +164,10 @@ function wrapFunc(f) {
 function set(obj, key, value) {
     const keys = key.split('.');
     const last = keys.pop();
-    let cobj = obj || {};
+    let cobj   = obj || {};
     while (keys.length) {
         const c = keys.shift();
-        cobj = cobj[c] || (cobj[c] = {});
+        cobj    = cobj[c] || (cobj[c] = {});
     }
     obj[last] = value;
     return obj;
@@ -192,7 +195,7 @@ function applyFuncs(f1, f2) {
 }
 function parseAlias(key) {
     var parts = key.split('=', 2);
-    var name = parts[0];
+    var name  = parts[0];
     if (parts[1]) {
         this[name] = parts[1];
     } else if (fs.existsSync(project(name, 'package.json'))) {
@@ -206,7 +209,7 @@ function useAlias(alias = {}) {
     if (process.env.SUBSCHEMA_USE_ALIASES) {
 
         process.env.SUBSCHEMA_USE_ALIASES.split(/,\s*/)
-            .forEach(parseAlias, alias);
+               .forEach(parseAlias, alias);
     }
     debug('using aliases', alias);
     return alias;
@@ -215,7 +218,7 @@ function useExternalizePeers(externals = {}) {
 
     if (process.env.SUBSCHEMA_EXTERNALIZE_PEERS) {
         var localPkg = project('package.json');
-        var peers = require(localPkg).peerDependencies;
+        var peers    = require(localPkg).peerDependencies;
         if (!peers) {
             info(
                 `using --externalize-peers however there are no peerDependencies in ${localPkg}`);
@@ -233,11 +236,11 @@ function useExternalizePeers(externals = {}) {
 function useExternals(externals = {}) {
     if (process.env.SUBSCHEMA_USE_EXTERNALS) {
         return process.env.SUBSCHEMA_USE_EXTERNALS.split(/,\s*/)
-            .reduce(function (ret, key) {
-                const [k, v] = key.split(/\s*=\s*/, 2);
-                set(ret, k, v || k);
-                return ret;
-            }, externals);
+                      .reduce(function (ret, key) {
+                          const [k, v] = key.split(/\s*=\s*/, 2);
+                          set(ret, k, v || k);
+                          return ret;
+                      }, externals);
     }
 }
 function _resolveConf(key, confFile) {
@@ -269,11 +272,11 @@ function useCustomConf(customConf, confFile = SUBSCHEMA_CONF, deps = pkg()) {
 }
 function makeAlias(ret, key) {
     ret[key + '/lib/style.css'] = dependency(key, 'lib', 'style.css');
-    ret[key] =
+    ret[key]                    =
         ret[key + '/lib'] = dependency(key, 'src');
     if (process.env.SUBSCHEMA_KARMA) {
         ret[key + '/test'] = dependency(key, 'test');
-        ret[key + '/'] = dependency(key, 'src');
+        ret[key + '/']     = dependency(key, 'src');
 
     }
     return ret;
@@ -287,7 +290,7 @@ function useDepAlias(alias = {}, deps = pkg()) {
     if (!process.env.SUBSCHEMA_DEPENDENCY_ALIASES) {
         aliasArr = aliasDependencies(deps);
     } else {
-        aliasArr = unique([deps.name],
+        aliasArr = unique(deps.name ? [deps.name] : [],
             process.env.SUBSCHEMA_DEPENDENCY_ALIASES.split(/,\s*/));
     }
     const r = aliasArr.filter(hasSource).reduce(makeAlias, alias);

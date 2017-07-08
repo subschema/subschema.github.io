@@ -81,10 +81,10 @@ export default function injector(resolvers = new Map()) {
             class InjectedClass extends BaseInjectComponent {
                 static defaultProps      = {};
                 static contextTypes      = {};
-                static displayName       = `${displayName || name}$Wrapper`;
                 static Clazz             = Clazz;
                 static _copyPropTypeKeys = copyPropTypeKeys;
             }
+            InjectedClass.displayName = `${displayName || name}$Wrapper`;
             return InjectedClass
         },
         /**

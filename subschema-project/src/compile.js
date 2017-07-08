@@ -1,7 +1,10 @@
-import {transform} from 'babel-core';
+import {transform, availablePlugins} from 'babel-core';
 import form from "./form";
 import babelrc from "subschema-dev-support/babelrc.json";
-
+import classDisplayName from 'babel-plugin-class-display-name';
+if (availablePlugins){
+    availablePlugins['class-display-name'] = classDisplayName;
+}
 export function stringify(obj) {
 
     return !obj ? 'null' : JSON.stringify(obj, null, 2)

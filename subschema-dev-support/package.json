@@ -10,7 +10,6 @@
     "subschema-mocha": "bin/subschema-mocha.js",
     "subschema-babel": "bin/subschema-babel.js",
     "subschema-karma": "bin/subschema-karma.js",
-    "subschema-docs": "bin/subschema-docs.js",
     "subschema-webpack": "bin/subschema-webpack.js",
     "subschema-webpack-dev-server": "bin/subschema-webpack-dev-server.js"
   },

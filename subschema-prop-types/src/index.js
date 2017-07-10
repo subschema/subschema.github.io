@@ -71,7 +71,7 @@ function propTypeToName(propType) {
 function _propTypeToName(propType, _api) {
     const keys = Object.keys(_api), l = keys.length;
     for (let i = 0; i < l; i++) {
-        let key = keys[i], f = api[key];
+        let key = keys[i], f = _api[key];
         if (f.isRequired === propType) {
             return '*' + key;
         }

@@ -6,7 +6,7 @@
     "stage-2"
   ],
   "plugins": [
-    "class-display-name",
+    "./react-class-display-name",
     "transform-function-bind",
     "transform-class-properties",
     "transform-async-to-generator",

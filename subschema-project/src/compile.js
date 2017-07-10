@@ -1,10 +1,11 @@
-import {transform, availablePlugins} from 'babel-core';
-import form from "./form";
-import babelrc from "subschema-dev-support/babelrc.json";
-import classDisplayName from 'babel-plugin-class-display-name';
-if (availablePlugins){
-    availablePlugins['class-display-name'] = classDisplayName;
+import { availablePlugins, transform } from 'babel-core';
+import form from './form';
+import babelrc from 'subschema-dev-support/babelrc.json';
+import reactClassDisplayName from 'subschema-dev-support/react-class-display-name';
+if (!availablePlugins['./react-class-display-name']) {
+    availablePlugins['./react-class-display-name'] = reactClassDisplayName;
 }
+
 export function stringify(obj) {
 
     return !obj ? 'null' : JSON.stringify(obj, null, 2)
@@ -13,10 +14,10 @@ export function stringify(obj) {
 
 
 export function normalize(options) {
-    const {setupTxt = '', imports = {}, data, props, errors, schema} = options.sample;
+    const { setupTxt = '', imports = {}, data, props, errors, schema } = options.sample;
 
     var importString = '';
-    var restOfCode = setupTxt.split("\n").map(function (v) {
+    var restOfCode   = setupTxt.split("\n").map(function (v) {
         return v.replace(/^\s*import\s+?(.+?);?\s*$/, function (all, imp) {
             importString += `import ${imp};\n`;
             return '';
@@ -24,7 +25,8 @@ export function normalize(options) {
         });
     }).join("\n");
     Object.keys(imports).reduce(function (str, key) {
-        const imp = (imports[key] == true) ? key : `{${imports[key].join(', ')}}`;
+        const imp = (imports[key] == true) ? key : `{${imports[key].join(
+            ', ')}}`;
 
         return `${importString};\nimport ${imp} from '${key}';\n`
     }, importString);

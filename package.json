@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "ipaddr.js": "^1.4.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
@@ -9,7 +10,7 @@
     "coverage": "SUBSCHEMA_COVERAGE_USE_GLOBAL=1 lerna --concurrency 1 run test && istanbul report --dir ./docs/coverage --include './coverage/subschema*/cov*.json' html",
     "test": "lerna bootstrap && lerna run test",
     "bootstrap": "lerna bootstrap && lr-link && lr-idea",
-    "demo":"cd subschema-component-demo && yarn run demo",
+    "demo": "cd subschema-component-demo && yarn run demo",
     "karma": "SUBSCHEMA_DEBUG=1 SUBSCHEMA_TEST_DIR=. ./subschema-dev-support/bin/subschema-karma.js"
   },
   "devDependencies": {

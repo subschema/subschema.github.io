@@ -2,7 +2,10 @@ import React, {Component} from "react";
 import PropTypes from "subschema-prop-types";
 import AceEditor from "react-ace";
 import "brace/theme/chrome";
+import "brace/theme/monokai";
 import "brace/mode/javascript";
+import "brace/mode/json";
+import "brace/mode/jsx";
 
 const mapErrors = (error) => {
     const row = error.loc && (error.loc.line - 1) || 0;

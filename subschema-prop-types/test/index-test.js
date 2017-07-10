@@ -73,6 +73,6 @@ describe('PropTypes', function () {
         stored = false;
         PropTypes.checkPropTypes({ test }, { test: "nothtat" }, 'test', 'Test',
             getStack);
-        expect(stored, 'should not have errorred').toBe(true);
+        expect(stored, 'should  have errorred').toBe(true);
     })
 });

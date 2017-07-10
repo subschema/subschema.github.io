@@ -7,9 +7,11 @@ import {
 
 
 function customPropType(type, name) {
-    const typeSpecName      = (...args) => {
-        return type(...args);
-    };
+
+    //wrap type because React may return the same function, especially in
+    // production mode
+    const typeSpecName = (...args) =>type(...args);
+
 
     Object.defineProperty(typeSpecName, 'displayName', {
         enumerable  : false,
@@ -24,7 +26,9 @@ function customPropType(type, name) {
         configurable: false,
         writable    : false
     });
-    typeSpecName[name] = type;
+    if (name) {
+        typeSpecName[name] = type;
+    }
     return typeSpecName;
 }
 

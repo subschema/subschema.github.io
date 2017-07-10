@@ -7,20 +7,25 @@ import {
 
 
 function customPropType(type, name) {
-    function customPropType$return(...args) {
-        return type.apply(api, args);
-    }
+    const typeSpecName      = (...args) => {
+        return type(...args);
+    };
 
-    customPropType$return.isRequired =
-        function customPropType$return$isRequired(...args) {
-            return type.isRequired.apply(type, args);
-        };
-    if (name) {
-        customPropType$return.displayName = name;
+    Object.defineProperty(typeSpecName, 'displayName', {
+        enumerable  : false,
+        value       : name,
+        configurable: false,
+        writable    : false
+    });
 
-    }
-
-    return customPropType$return;
+    Object.defineProperty(typeSpecName, 'isRequired', {
+        enumerable  : false,
+        value       : (...args) => type.isRequired(...args),
+        configurable: false,
+        writable    : false
+    });
+    typeSpecName[name] = type;
+    return typeSpecName;
 }
 
 function propTypeToName(propType) {
@@ -220,14 +225,17 @@ let contentShape = {
 
 let pContentShape = shape(contentShape);
 
-let contentType = customPropType(
-    oneOfType([pContentShape, string, bool, func, number, arrayOf(
-        oneOfType([string, string, bool, number, func, pContentShape]))]),
-    'contentType');
+let _contentType     = oneOfType(
+    [pContentShape, string, bool, func, number,
+        arrayOf(
+            oneOfType([string, string, bool, number, func, pContentShape])
+        )
+    ]);
+contentShape.content = _contentType;
 
-contentShape.content = contentType;
+const contentType = customPropType(_contentType, 'contentType');
 
-const content = customPropType(contentType, 'content');
+const content = customPropType(_contentType, 'content');
 
 const template = customPropType(oneOfType([string, bool, shape({
     template : oneOfType([string, bool, func]),

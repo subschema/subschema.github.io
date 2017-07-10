@@ -14,11 +14,16 @@ module.exports = function process(conf = require('./babelrc.json'), resolve = _r
     function fix(prefix) {
         return function (v) {
             if (Array.isArray(v)) {
+                if (v[0].startsWith('./')){
+                    v[0] = _resolve(v[0]);
+                    return v;
+                }
                 if (v[0].startsWith('/')) return v;
                 v[0] = resolve(`${prefix}-${v[0]}`);
                 return v;
             }
             if (v.startsWith('/')) return v;
+            if (v.startsWith('./')) return _resolve(v);
             return resolve(`${prefix}-${v}`);
         }
     }

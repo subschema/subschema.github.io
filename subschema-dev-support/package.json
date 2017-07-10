@@ -1,6 +1,6 @@
 {
   "name": "subschema-dev-support",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Tools for developing with subschema and webpack",
   "scripts": {
     "test": "echo 'No Tests for subschema-dev-support'",
@@ -18,7 +18,7 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "7",
-    "babel-plugin-class-display-name": "^2.1.0",
+    "babel-plugin-add-react-displayname": "^0.0.4",
     "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-transform-async-to-generator": "^6.24.1 ",
     "babel-plugin-transform-class-properties": "^6.24.1",

@@ -16,7 +16,8 @@ function customPropType(type, name) {
             return type.isRequired.apply(type, args);
         };
     if (name) {
-        customPropType$return.propTypeName = name;
+        customPropType$return.displayName = name;
+
     }
 
     return customPropType$return;
@@ -54,9 +55,9 @@ const deprecated  = function (message) {
             : void(0);
     }
 };
-const conditional = oneOfType([string, shape({
+const conditional = customPropType(oneOfType([string, shape({
     operator: oneOfType([string, func])
-})]);
+})]), 'conditional');
 
 const domType = customPropType(node, 'domType');
 
@@ -64,9 +65,9 @@ const fields = customPropType(oneOfType([string, arrayOf(string)]), 'fields');
 
 const title = customPropType(oneOfType([string, bool]), 'title');
 
-const injector        = shape({
+const injector        = customPropType(shape({
     inject: func.isRequired
-});
+}), 'injector');
 const injectorFactory = customPropType(func, 'injectorFactory');
 
 const blurValidate = customPropType(func, 'blurValidate');
@@ -95,7 +96,7 @@ const error = customPropType(any, 'error');
 
 const errors = customPropType(any, 'errors');
 
-const promise = shape({ then: func });
+const promise = customPropType(shape({ then: func }), 'promise');
 
 const id = customPropType(string, 'id');
 
@@ -122,7 +123,8 @@ const path = customPropType(string, 'path');
 
 const placeholder = customPropType(string, 'placeholder');
 
-const arrayString = oneOfType([string, arrayOf(string)]);
+const arrayString = customPropType(oneOfType([string, arrayOf(string)]),
+    'arrayString');
 
 const submit = customPropType(func, 'submit');
 
@@ -157,17 +159,17 @@ const validEvent = customPropType(func, 'validEvent');
 
 const dataType = customPropType(string, 'dataType');
 
-const type = oneOfType([string, func]);
+const type = customPropType(oneOfType([string, func]), 'type');
 
-const typeDescription = oneOfType([string, shape({
+const typeDescription = customPropType(oneOfType([string, shape({
     type: string.isRequired
-})]);
+})]), 'typeDescription');
 
 const _transitionTypes = oneOf(['appear', 'enter', 'leave']);
-const transition       = oneOfType([string, shape({
+const transition       = customPropType(oneOfType([string, shape({
     transition: string,
     on        : _transitionTypes
-})]);
+})]), 'transition');
 
 /**
  * Signify this property can take an expression.  This
@@ -189,16 +191,16 @@ const renderedTemplate = customPropType(oneOfType([
     ]),
     'renderedTemplate');
 
-const loader = shape({
+const loader = customPropType(shape({
     loadTemplate : func,
     loadType     : func,
     loadSchema   : func,
     loadValidator: func,
     loadProcessor: func,
     loadOperator : func
-});
+}), 'loader');
 
-const valueManager = shape({
+const valueManager = customPropType(shape({
     addListener: func,
 
     addErrorListener: func,
@@ -208,7 +210,7 @@ const valueManager = shape({
     addSubmitListener: func,
 
     addStateListener: func,
-});
+}), 'shape');
 
 let contentShape = {
     className: cssClass,
@@ -218,20 +220,22 @@ let contentShape = {
 
 let pContentShape = shape(contentShape);
 
-let contentType = oneOfType([pContentShape, string, bool, func, number, arrayOf(
-    oneOfType([string, string, bool, number, func, pContentShape]))]);
+let contentType = customPropType(
+    oneOfType([pContentShape, string, bool, func, number, arrayOf(
+        oneOfType([string, string, bool, number, func, pContentShape]))]),
+    'contentType');
 
 contentShape.content = contentType;
 
-const content = contentType;
+const content = customPropType(contentType, 'content');
 
-const template = oneOfType([string, bool, shape({
+const template = customPropType(oneOfType([string, bool, shape({
     template : oneOfType([string, bool, func]),
     content  : content,
     className: cssClass
-}), func]);
+}), func]), 'template');
 
-const button = oneOfType([string, shape({
+const button = customPropType(oneOfType([string, shape({
     onClick    : event,
     buttonClass: cssClass,
     action     : string,
@@ -239,9 +243,9 @@ const button = oneOfType([string, shape({
     value      : string,
     path       : path,
     iconClass  : cssClass
-})]);
+})]), 'button');
 
-const buttons = oneOfType([
+const buttons = customPropType(oneOfType([
     button,
     arrayOf(button),
     shape({
@@ -251,10 +255,10 @@ const buttons = oneOfType([
         buttonTemplate : template,
         buttonsTemplate: template
     })
-]);
+]), 'buttons');
 
-const fieldsets = (...args) => fieldset(...args);
-const fieldset  = oneOfType([
+const fieldsets = customPropType((...args) => fieldset(...args), 'fieldsets');
+const fieldset  = customPropType(oneOfType([
     string,
     shape({
         fields,
@@ -272,20 +276,21 @@ const fieldset  = oneOfType([
         template,
         fieldsets
     }))
-]);
+]), 'fieldset');
 
-const literal = oneOfType([string, bool, number, instanceOf(Date)]);
+const literal = customPropType(
+    oneOfType([string, bool, number, instanceOf(Date)]), 'literal');
 
 
-const options = oneOfType([
+const options = customPropType(oneOfType([
     arrayString,
     arrayOf(shape({
         label: string,
         val  : literal
     }))
-]);
+]), 'options');
 
-const optionsGroup = oneOfType([
+const optionsGroup = customPropType(oneOfType([
     arrayString,
     arrayOf(shape({
         options  : options,
@@ -294,19 +299,21 @@ const optionsGroup = oneOfType([
         labelHTML: string,
         val      : literal
     }))
-])
+]), 'optionsGroup');
 
-const schema = oneOfType([string, object, shape({
+const schema = customPropType(oneOfType([string, object, shape({
     fields   : arrayString,
     fieldsets: oneOfType([arrayString, fieldset, arrayOf(fieldset)]),
     schema   : object,
-})]);
+})]), 'schema');
 
-const array = arrayOf(any);
+const array = customPropType(arrayOf(any), 'array');
 
-const validators = oneOfType([arrayString, arrayOf(validators)]);
+const validators = customPropType(oneOfType([arrayString, arrayOf(validators)]),
+    'validators');
 
-const operator = oneOfType([string, func, instanceOf(RegExp)]);
+const operator = customPropType(oneOfType([string, func, instanceOf(RegExp)]),
+    'operator');
 
 const events = {
     onValidate: event,
@@ -340,13 +347,13 @@ const contextTypes = Object.freeze({
 });
 
 
-const processor = oneOfType([string, shape({
+const processor = customPropType(oneOfType([string, shape({
     fetch : func,
     value : func,
     format: func
-})]);
+})]), 'processor');
 
-const injectClass = oneOfType([
+const injectClass = customPropType(oneOfType([
     func,
     shape({
         injectClass: func,
@@ -354,7 +361,7 @@ const injectClass = oneOfType([
         injectProps: object,
         strict     : bool
     })
-]);
+]), 'injectClass');
 
 const api = {
     onButtonClick,

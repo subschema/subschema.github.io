@@ -25,8 +25,7 @@
     "subschema-project",
     "subschema-component-playground",
     "subschema-component-demo",
-    "subschema.wiki",
-    "subschema-create-react-app-test"
+    "subschema.wiki"
   ],
   "version": "2.2.7"
 }

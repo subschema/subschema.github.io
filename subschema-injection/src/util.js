@@ -64,7 +64,7 @@ function uniqueKeys(...args) {
         }
         const argKeys = Object.keys(arg);
         for (let k = 0, m = argKeys.length; k < m; k++) {
-            const key = argKeys[i];
+            const key = argKeys[k];
             if (keys.indexOf(key) === -1) {
                 keys.push(key);
             }

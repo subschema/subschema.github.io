@@ -41,7 +41,7 @@ function customPropType(type, name) {
         if (args.length > 2) {
             return type(...args);
         }
-        return customPropType(...args);
+        return customPropType(type(args[0]), args[1]);
     };
 
 

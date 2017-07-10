@@ -54,26 +54,25 @@ describe('PropTypes', function () {
         const content = { className: 1 }
         let stored;
         PropTypes.checkPropTypes(PT.content, { content }, 'content', 'Test',
-            function getStack(e) {
+            () => {
                 stored = true;
             });
         expect(stored, 'should not have errorred').toExist();
     });
-    it('should wrap chains', function(){
+    it('should wrap chains', function () {
 
-        const ret = PT.oneOf(["this","or","that"], "thisorthat");
-        expect(ret.displayName).toBe('thisorthat');
-        let stored;
-        PropTypes.checkPropTypes(ret, "nonoftheabove", 'content', 'Test',
-            function getStack(e) {
-                stored = true;
-            });
-        expect(stored, 'should not have errorred').toExist();
+        const test = PT.oneOf(["this", "or", "that"], "thisorthat");
+        expect(test.displayName).toBe('thisorthat');
+        let stored = false;
+        const getStack = ()=>stored = true;
+
+        PropTypes.checkPropTypes({ test }, { test: "that" }, 'test',
+            'Test',
+            getStack);
+        expect(stored, 'should not have errorred').toBe(false);
         stored = false;
-        PropTypes.checkPropTypes(ret, "this", 'content', 'Test',
-            function getStack(e) {
-                stored = true;
-            });
-        expect(stored, 'should not have errorred').toNotExist();
+        PropTypes.checkPropTypes({ test }, { test: "nothtat" }, 'test', 'Test',
+            getStack);
+        expect(stored, 'should not have errorred').toBe(true);
     })
 });

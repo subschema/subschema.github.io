@@ -14,6 +14,22 @@ import {
     string
 } from 'prop-types';
 
+
+const RawPropTypes = {
+    any,
+    arrayOf,
+    bool,
+    func,
+    instanceOf,
+    objectOf,
+    node,
+    number,
+    object,
+    oneOf,
+    oneOfType,
+    shape,
+    string
+}
 //we'll re-export these for convenience in the babel6 world.
 
 
@@ -49,7 +65,11 @@ function customPropType(type, name) {
 }
 
 function propTypeToName(propType) {
-    const keys = Object.keys(api), l = keys.length;
+    return _propTypeToName(propType, api) || _propTypeToName(propTypes,
+            RawPropTypes);
+}
+function _propTypeToName(propType, _api) {
+    const keys = Object.keys(_api), l = keys.length;
     for (let i = 0; i < l; i++) {
         let key = keys[i], f = api[key];
         if (f.isRequired === propType) {
@@ -449,23 +469,25 @@ const api = {
     contextTypes,
     processor,
     typeClass,
-    string,
-    bool,
-    number,
-    object,
-    func,
-    any,
-    node,
-    shape,
-    arrayOf,
-    instanceOf,
-    oneOfType,
-    oneOf,
     renderedTemplate,
     stash,
     unstash,
     clearStash,
-    validateFields
+    validateFields,
+    //wrapped
+    shape     : customPropType(shape, 'shape'),
+    arrayOf   : customPropType(arrayOf, 'arrayOf'),
+    instanceOf: customPropType(instanceOf, 'instanceOf'),
+    oneOfType : customPropType(oneOfType, 'oneOfType'),
+    oneOf     : customPropType(oneOf, 'oneOf'),
+    objectOf  : customPropType(objectOf, 'objectOf'),
+    string    : customPropType(string, 'string'),
+    bool      : customPropType(bool, 'bool'),
+    number    : customPropType(number, 'number'),
+    object    : customPropType(object, 'object'),
+    func      : customPropType(func, 'func'),
+    any       : customPropType(any, 'any'),
+    node      : customPropType(node, 'node'),
 
 };
 
@@ -541,18 +563,17 @@ export default
     unstash,
     clearStash,
     validateFields,
-    //These return
-    shape     : customPropType(shape, 'shape'),
-    arrayOf   : customPropType(arrayOf, 'arrayOf'),
-    instanceOf: customPropType(instanceOf, 'instanceOf'),
-    oneOfType : customPropType(oneOfType, 'oneOfType'),
-    oneOf     : customPropType(oneOf, 'oneOf'),
-    objectOf  : customPropType(objectOf, 'objectOf'),
-    string    : customPropType(string, 'string'),
-    bool      : customPropType(bool, 'bool'),
-    number    : customPropType(number, 'number'),
-    object    : customPropType(object, 'object'),
-    func      : customPropType(func, 'func'),
-    any       : customPropType(any, 'any'),
-    node      : customPropType(node, 'node'),
+    shape     : api.shape,
+    arrayOf   : api.arrayOf,
+    instanceOf: api.instanceOf,
+    oneOfType : api.oneOfType,
+    oneOf     : api.oneOf,
+    objectOf  : api.objectOf,
+    string    : api.string,
+    bool      : api.bool,
+    number    : api.number,
+    object    : api.object,
+    func      : api.func,
+    any       : api.any,
+    node      : api.node,
 });

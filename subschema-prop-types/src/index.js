@@ -1,6 +1,17 @@
 import {
-    any, arrayOf, bool, func, instanceOf, node, number, object, oneOf,
-    oneOfType, shape, string
+    any,
+    arrayOf,
+    bool,
+    func,
+    instanceOf,
+    objectOf,
+    node,
+    number,
+    object,
+    oneOf,
+    oneOfType,
+    shape,
+    string
 } from 'prop-types';
 
 //we'll re-export these for convenience in the babel6 world.
@@ -10,15 +21,13 @@ function customPropType(type, name) {
 
     //wrap type because React may return the same function, especially in
     // production mode
-    const typeSpecName = (...args) =>type(...args);
+    const typeSpecName = (...args) => {
+        if (args.length > 2) {
+            return type(...args);
+        }
+        return customPropType(...args);
+    };
 
-
-    Object.defineProperty(typeSpecName, 'displayName', {
-        enumerable  : false,
-        value       : name,
-        configurable: false,
-        writable    : false
-    });
 
     Object.defineProperty(typeSpecName, 'isRequired', {
         enumerable  : false,
@@ -27,6 +36,13 @@ function customPropType(type, name) {
         writable    : false
     });
     if (name) {
+        Object.defineProperty(typeSpecName, 'displayName', {
+            enumerable  : false,
+            value       : name,
+            configurable: false,
+            writable    : false
+        });
+
         typeSpecName[name] = type;
     }
     return typeSpecName;
@@ -518,21 +534,25 @@ export default
     style,
     transition,
     deprecated,
-    string,
-    bool,
-    number,
-    object,
-    func,
-    any,
-    node,
-    shape,
-    arrayOf,
-    instanceOf,
-    oneOfType,
-    oneOf,
+    //primatives not much we can do
+
     renderedTemplate,
     stash,
     unstash,
     clearStash,
-    validateFields
+    validateFields,
+    //These return
+    shape     : customPropType(shape, 'shape'),
+    arrayOf   : customPropType(arrayOf, 'arrayOf'),
+    instanceOf: customPropType(instanceOf, 'instanceOf'),
+    oneOfType : customPropType(oneOfType, 'oneOfType'),
+    oneOf     : customPropType(oneOf, 'oneOf'),
+    objectOf  : customPropType(objectOf, 'objectOf'),
+    string    : customPropType(string, 'string'),
+    bool      : customPropType(bool, 'bool'),
+    number    : customPropType(number, 'number'),
+    object    : customPropType(object, 'object'),
+    func      : customPropType(func, 'func'),
+    any       : customPropType(any, 'any'),
+    node      : customPropType(node, 'node'),
 });

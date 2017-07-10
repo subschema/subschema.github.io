@@ -59,5 +59,21 @@ describe('PropTypes', function () {
             });
         expect(stored, 'should not have errorred').toExist();
     });
+    it('should wrap chains', function(){
 
+        const ret = PT.oneOf(["this","or","that"], "thisorthat");
+        expect(ret.displayName).toBe('thisorthat');
+        let stored;
+        PropTypes.checkPropTypes(ret, "nonoftheabove", 'content', 'Test',
+            function getStack(e) {
+                stored = true;
+            });
+        expect(stored, 'should not have errorred').toExist();
+        stored = false;
+        PropTypes.checkPropTypes(ret, "this", 'content', 'Test',
+            function getStack(e) {
+                stored = true;
+            });
+        expect(stored, 'should not have errorred').toNotExist();
+    })
 });

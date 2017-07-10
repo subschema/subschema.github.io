@@ -65,7 +65,7 @@ function customPropType(type, name) {
 }
 
 function propTypeToName(propType) {
-    return _propTypeToName(propType, api) || _propTypeToName(propTypes,
+    return _propTypeToName(propType, api) || _propTypeToName(propType,
             RawPropTypes);
 }
 function _propTypeToName(propType, _api) {
